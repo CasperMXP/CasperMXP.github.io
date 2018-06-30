@@ -1,0 +1,106 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="java"><title>Java关键字-instanceOf | CHILAM</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Java关键字-instanceOf</h1><a id="logo" href="/.">CHILAM</a><p class="description">多读书，多看报，少吃零食，多睡觉</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Java关键字-instanceOf</h1><div class="post-meta">Mar 15, 2016<span> | </span><span class="category"><a href="/categories/搬砖/">搬砖</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 1,010</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 5</span><span class="post-meta-item-text"> Minutes</span></span></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">Inhalte</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#定义"><span class="toc-number">1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#必须为引用类型，不能是基本类型"><span class="toc-number">2.</span> <span class="toc-text">必须为引用类型，不能是基本类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-number">3.</span> <span class="toc-text">null</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类的实例对象"><span class="toc-number">4.</span> <span class="toc-text">类的实例对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#接口的实现类"><span class="toc-number">5.</span> <span class="toc-text">接口的实现类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类的直接或间接子类"><span class="toc-number">6.</span> <span class="toc-text">类的直接或间接子类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#疑问"><span class="toc-number">7.</span> <span class="toc-text">疑问</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#原因："><span class="toc-number">7.1.</span> <span class="toc-text">原因：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#instanceof的实现策略"><span class="toc-number">7.2.</span> <span class="toc-text">instanceof的实现策略</span></a></li></ol></li></ol></div></div><div class="post-content"><ul>
+<li><a href="https://www.zhihu.com/question/21574535" target="_blank" rel="noopener">参考链接</a></li>
+</ul>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
+<li>instanceof用来测试一个对象是否为一个类的实例，用法为：</li>
+</ul>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String s = <span class="string">"aaa"</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">boolean </span><span class="keyword">b </span>= s <span class="keyword">instanceof </span>String<span class="comment">;</span></span><br><span class="line">System.out.println(<span class="string">"b = "</span> + <span class="keyword">b);</span></span><br></pre></td></tr></table></figure>
+<pre><code>其中 s 为一个对象，String 表示一个类或者一个接口，当 s 为 String 的对象，或者是其直接或间接子类，或者是其接口的实现类，
+</code></pre><p>结果result 都返回 true，否则返回false。注意：编译器会检查 obj 是否能转换成右边的class类型，如果不能转换则直接报错，<br>如果不能确定类型，则通过编译，具体看运行时定。</p>
+<h2 id="必须为引用类型，不能是基本类型"><a href="#必须为引用类型，不能是基本类型" class="headerlink" title="必须为引用类型，不能是基本类型"></a>必须为引用类型，不能是基本类型</h2><ul>
+<li>instanceof 运算符只能用作对象的判断。</li>
+</ul>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int i = <span class="number">1</span><span class="comment">;</span></span><br><span class="line"><span class="keyword">boolean </span><span class="keyword">b </span>= i.<span class="keyword">instanceof </span>Integer<span class="comment">;//编译不通过</span></span><br></pre></td></tr></table></figure>
+<h2 id="null"><a href="#null" class="headerlink" title="null"></a>null</h2><ul>
+<li>在<a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.20.2" target="_blank" rel="noopener">JavaSE规范</a> 中对 instanceof 运算符的规定就是：如果 obj 为 null，那么将返回 false。</li>
+</ul>
+<figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.err.<span class="built_in">println</span>(<span class="keyword">null</span> <span class="keyword">instanceof</span> <span class="keyword">Object</span>);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<h2 id="类的实例对象"><a href="#类的实例对象" class="headerlink" title="类的实例对象"></a>类的实例对象</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Long</span> l1 = <span class="keyword">new</span> <span class="keyword">Long</span>(<span class="number">12</span>);</span><br><span class="line"><span class="keyword">boolean</span> b = l1 <span class="keyword">instanceof</span> <span class="keyword">Long</span>;</span><br><span class="line">System.out.<span class="keyword">println</span>(<span class="string">"b = "</span> + b);</span><br></pre></td></tr></table></figure>
+<h2 id="接口的实现类"><a href="#接口的实现类" class="headerlink" title="接口的实现类"></a>接口的实现类</h2><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; strings = <span class="literal">new</span> ArrayList&lt;&gt;();</span><br><span class="line"><span class="built_in">boolean</span> b = strings instanceof <span class="built_in">List</span>;</span><br><span class="line">System.out.println(<span class="string">"b = "</span> + b);<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<h2 id="类的直接或间接子类"><a href="#类的直接或间接子类" class="headerlink" title="类的直接或间接子类"></a>类的直接或间接子类</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    public static void main(<span class="type">String</span>[] args) &#123;</span><br><span class="line">        <span class="type">Bird</span> bird = <span class="keyword">new</span> <span class="type">Bird</span>();</span><br><span class="line">        boolean b = bird instanceof <span class="type">Animal</span>;</span><br><span class="line">        <span class="type">System</span>.out.println(<span class="string">"b = "</span> + b);<span class="comment">//true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bird</span> <span class="keyword">extends</span> <span class="title">Animal</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h2><ul>
+<li>编译器会检查instanceof左边对象能否转换成右边类，如果不能转换直接报错，如果不能确定，则通过编译具体看运行时定。</li>
+</ul>
+<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Bird </span><span class="keyword">bird </span>= new <span class="keyword">Bird();</span></span><br><span class="line"><span class="keyword">boolean </span><span class="keyword">b1 </span>= <span class="keyword">bird </span><span class="keyword">instanceof </span>String<span class="comment">;//不能编译</span></span><br><span class="line"><span class="keyword">boolean </span><span class="keyword">b </span>= <span class="keyword">bird </span><span class="keyword">instanceof </span>List<span class="comment">;//false</span></span><br><span class="line"><span class="keyword">boolean </span><span class="keyword">b1 </span>= <span class="keyword">bird </span><span class="keyword">instanceof </span>List&lt;?&gt;<span class="comment">;//false</span></span><br><span class="line"><span class="keyword">boolean </span><span class="keyword">b2 </span>= <span class="keyword">bird </span><span class="keyword">instanceof </span>List&lt;Animal&gt;<span class="comment">;//不能编译</span></span><br></pre></td></tr></table></figure>
+<ol>
+<li><p>Brid的对象bird很明显不能转换为String 对象，那么bird instanceof String不能通过编译</p>
+</li>
+<li><p>但为什么bird instanceof List;却能通过编译呢？而bird instanceof List<animal> 又不能通过编译了？</animal></p>
+</li>
+</ol>
+<h3 id="原因："><a href="#原因：" class="headerlink" title="原因："></a>原因：</h3><p><a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-15.html#jls-15.20.2" target="_blank" rel="noopener">JavaSE8语言规范-InstanceOf</a></p>
+<ul>
+<li>伪代码的描述如下：</li>
+</ul>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">boolean result;</span><br><span class="line"><span class="keyword">if</span> (<span class="attr">obj</span> == <span class="literal">null</span>) &#123;</span><br><span class="line">  <span class="attr">result</span> = <span class="literal">false</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  try &#123;</span><br><span class="line">      T <span class="attr">temp</span> = (T) obj; // checkcast</span><br><span class="line">      <span class="attr">result</span> = <span class="literal">true</span>;</span><br><span class="line">  &#125; catch (ClassCastException e) &#123;</span><br><span class="line">      <span class="attr">result</span> = <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>如果 obj 不为 null 并且 (T) obj 不抛 ClassCastException 异常则该表达式值为 true ，否则值为 false 。</li>
+</ul>
+<h3 id="instanceof的实现策略"><a href="#instanceof的实现策略" class="headerlink" title="instanceof的实现策略"></a>instanceof的实现策略</h3><p><a href="https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html#jvms-6.5.instanceof" target="_blank" rel="noopener">javainstanceof实现算法描述</a></p>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">S <span class="keyword">instanceof</span> T</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>If S is an ordinary (nonarray) class, then:</p>
+<ul>
+<li><p>If T is a class type, then S must be the same class as T, or S must be a subclass of T;</p>
+</li>
+<li><p>If T is an interface type, then S must implement interface T.</p>
+</li>
+</ul>
+</li>
+<li><p>If S is an interface type, then:</p>
+<ul>
+<li><p>If T is a class type, then T must be Object.</p>
+</li>
+<li><p>If T is an interface type, then T must be the same interface as S or a superinterface of S.</p>
+</li>
+</ul>
+</li>
+<li><p>If S is a class representing the array type SC[], that is, an array of components of type SC, then:</p>
+<ul>
+<li><p>If T is a class type, then T must be Object.</p>
+</li>
+<li><p>If T is an interface type, then T must be one of the interfaces implemented by arrays (JLS §4.10.3).</p>
+</li>
+<li><p>If T is an array type TC[], that is, an array of components of type TC, then one of the following must be true:</p>
+<ul>
+<li><p>TC and SC are the same primitive type.</p>
+</li>
+<li><p>TC and SC are reference types, and type SC can be cast to TC by these run-time rules.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p>obj如果为null，则返回false；否则设S为obj的类型对象，剩下的问题就是检查S是否为T的子类型；</p>
+</li>
+<li><p>如果S == T，则返回true；</p>
+</li>
+<li><p>接下来分为3种情况，之所以要分情况是因为instanceof要做的是“子类型检查”，而Java语言的类型系统里数组类型、接口类型与普通类类型三者的子类型规定都不一样，必须分开来讨论。</p>
+<ol>
+<li><p>S是数组类型：如果 T 是一个类类型，那么T必须是Object；如果 T 是接口类型，那么 T 必须是由数组实现的接口之一；</p>
+</li>
+<li><p>接口类型：对接口类型的 instanceof 就直接遍历S里记录的它所实现的接口，看有没有跟T一致的；</p>
+</li>
+<li><p>类类型：对类类型的 instanceof 则是遍历S的super链（继承链）一直到Object，看有没有跟T一致的。遍历类的super链意味着这个算法的性能会受类的继承深度的影响。</p>
+</li>
+</ol>
+</li>
+</ol>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a class="article-share-link" data-url="http://chilam.me/2016/03/15/java-keyword-instanceof/" data-id="cjj1fhye9002d30dan69kp2je" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACKElEQVR42u3a226DQAxF0fz/T5PXShXMPjZEwrN5qiogs1LJ9e3zwdfx5/r/e3Ln2VPknbddMmTIeC3juLzO7iGHJm/g779+gwwZMnZgpGHxjLH4MBwn+dlkyJAhg6Rr1x/Pg6YMGTJkPMfgh+AJqAwZMmTUilgeTPtB+cFaXIYMGS9k8K77739+ZL4hQ4aMVzGO8CLDS9LuT59anEqGDBmjGbUClQfE2spFrWCWIUPGDox0AaJWoPKSmJxtJZMhQ8YERj+Mph9ZSwQXyagMGTJGM0i86gRKPjyopYkyZMjYgUGSvLtaY3xUWcxtZciQMZpBwl+cqIESN8WgbREZMmSMY/RXu9JEsPPFLRJHGTJkDGXcdXTekktHnuhUMmTIGM3oh9F0FazYESSTShkyZAxl8KOnaV86KkiDuwwZMvZhdFI3XnamyNqqmQwZMqYy+MOLpjwYf6ZBnL9NhgwZsxlpuEybZWkBzBc+Fu02GTJkjGN0CsvawLJWNqOvVYYMGUMZaUJWC7tpUI7fJkOGjG0YpK3Gm/W1cjQdlMqQIWMfRm39ojZD5IkjH07IkCFjKuMIr1qg7K90oL+DDBkyhjI6wTFdm0jTvidCvAwZMt7L4C1+AruriRYHXBkyZGzA4FUvB3fC9A21uAwZMrZnpC0z3tSr3S9DhgwZ6QoFWfAigTggyZAhYwNGuoraWZ7ojzNlyJCxG6NTOqYjRp5W9v8NyJAhYwTjC2NsapjT58tAAAAAAElFTkSuQmCC">Aktie</a><div class="tags"><a href="/tags/java/">java</a></div><div class="post-nav"><a class="pre" href="/2016/03/16/java-keyword-native/">Java关键字-native</a><a class="next" href="/2015/10/22/crazy-java-13-string-intern/">13.《疯狂Java讲义第三版》读书笔记-String.intern()</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+  owner: 'CasperMXP',
+  repo: 'CasperMXP.github.io',
+  oauth: {
+    client_id: '2cf162fa015e397bb3c9',
+    client_secret: '9c97449f4ec96ac4a1064e819e92fde840e66ec7',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1 pure-u-md-1-4"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1房2人3餐4季/">1房2人3餐4季</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搬砖/">搬砖</a><span class="category-list-count">61</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/Hystrix/" style="font-size: 15px;">Hystrix</a> <a href="/tags/idea/" style="font-size: 15px;">idea</a> <a href="/tags/test/" style="font-size: 15px;">test</a> <a href="/tags/jvm/" style="font-size: 15px;">jvm</a> <a href="/tags/jmm/" style="font-size: 15px;">jmm</a> <a href="/tags/spring-boot/" style="font-size: 15px;">spring-boot</a> <a href="/tags/design-pattern/" style="font-size: 15px;">design-pattern</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/logback/" style="font-size: 15px;">logback</a> <a href="/tags/markdown/" style="font-size: 15px;">markdown</a> <a href="/tags/maths/" style="font-size: 15px;">maths</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/sublime/" style="font-size: 15px;">sublime</a> <a href="/tags/javaee/" style="font-size: 15px;">javaee</a> <a href="/tags/weblogic/" style="font-size: 15px;">weblogic</a> <a href="/tags/win10/" style="font-size: 15px;">win10</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/06/26/mysql-2/">3.mysql-sql</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/21/jvm-7/">7.jvm-load</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/21/jvm-6/">6.jvm-class</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/mysql-1/">1.mysql-install</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/19/jvm-5/">5.jvm-tools</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/18/jvm-4/">4.jvm-gc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/jvm-3/">3.jvm-outOfMemory</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/jvm-2/">2.jvm-memory-area</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/jvm-1/">1.jvm-jdk</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/16/life-dinner-noodle/">黑胡椒意面</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">CHILAM.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" color="100,99,98" opacity="0.7" zIndex="-1" count="30" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

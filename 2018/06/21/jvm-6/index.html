@@ -1,0 +1,143 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="java"><title>6.jvm-class | CHILAM</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">6.jvm-class</h1><a id="logo" href="/.">CHILAM</a><p class="description">多读书，多看报，少吃零食，多睡觉</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">6.jvm-class</h1><div class="post-meta">Jun 21, 2018<span> | </span><span class="category"><a href="/categories/搬砖/">搬砖</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 902</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 3</span><span class="post-meta-item-text"> Minutes</span></span></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">Inhalte</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#语言无关性"><span class="toc-number">1.</span> <span class="toc-text">语言无关性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#class类文件的结构"><span class="toc-number">2.</span> <span class="toc-text">class类文件的结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#java8虚拟机规范中class文件格式"><span class="toc-number">2.1.</span> <span class="toc-text">java8虚拟机规范中class文件格式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字节码指令简介"><span class="toc-number">3.</span> <span class="toc-text">字节码指令简介</span></a></li></ol></div></div><div class="post-content"><h2 id="语言无关性"><a href="#语言无关性" class="headerlink" title="语言无关性"></a>语言无关性</h2><ul>
+<li><p>虚拟机和字节码。</p>
+</li>
+<li><p>class文件中包含了Java虚拟机的指令集和符号以及若干其他辅助信息。</p>
+</li>
+</ul>
+<h2 id="class类文件的结构"><a href="#class类文件的结构" class="headerlink" title="class类文件的结构"></a>class类文件的结构</h2><h3 id="java8虚拟机规范中class文件格式"><a href="#java8虚拟机规范中class文件格式" class="headerlink" title="java8虚拟机规范中class文件格式"></a><a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html" target="_blank" rel="noopener">java8虚拟机规范中class文件格式</a></h3><ol>
+<li><p>magic,魔数，u4,确定该class文件是否被虚拟机接受，默认值CADEBABE</p>
+</li>
+<li><p>minor_version,次版本号，u2</p>
+</li>
+<li><p>major_version,主版本号，u2,jdk1.1(45),jdk1.2(46)…依次加1，jdk1.8(52)</p>
+</li>
+<li><p>constant_pool_count,常量池数量，u2,值是从1开始计算的，所以真实数量值要减1</p>
+</li>
+<li><p>constant_pool,常量池，cp_info，主要存放字面量（utf8,Interger）和符号引用(类和借口，字段，类中方法)</p>
+</li>
+<li><p>access_flags,访问标志，u2，访问标志，识别类和接口的访问信息（是类是接口？public类型？Final?Abstract?）</p>
+</li>
+<li><p>this_class,类索引，u2，类索引，指向CONSTANCT_Class_info类型的常量</p>
+</li>
+<li><p>super_class，父类索引，u2，父类索引，指向CONSTANCT_Class_info类型的常量</p>
+</li>
+<li><p>interfaces_count,接口数量</p>
+</li>
+<li><p>interfaces，接口</p>
+</li>
+<li><p>fields_count，</p>
+</li>
+<li><p>fields，描述接口或类中声明的变量（类和实例），包含访问作用域，static,final,voliate,transient</p>
+</li>
+<li><p>methods_count</p>
+</li>
+<li><p>methods,描述方法相关信息</p>
+</li>
+<li><p>attribute_count,属性</p>
+</li>
+<li><p>attributes</p>
+<ul>
+<li><p>Code,java程序方法的代码经过编译后字节码指令存放地址</p>
+</li>
+<li><p>Exceptions,方法throw的异常信息</p>
+</li>
+<li><p>LineNumberTable,描述Java源代码行号和字节码行号的映射</p>
+</li>
+<li><p>Signature,为擦除泛型设计的，为了反射的时候获取运行的类型</p>
+</li>
+<li><p>Inner Class,内部类列表</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="字节码指令简介"><a href="#字节码指令简介" class="headerlink" title="字节码指令简介"></a>字节码指令简介</h2><ol>
+<li><p>加载和存储指令用于将数据在帧栈中局部变量表和操作数栈之间来回传输</p>
+<ul>
+<li>将一个局部变量加载到操作栈：iload,lload,fload,dload</li>
+<li>将一个数值从操作栈存储到局部变量：istore,lstroe.fstror,dstroe</li>
+<li>将一个常量加载到操作数栈：bipush,sipush,iconst,lconst,fconst</li>
+</ul>
+</li>
+<li><p>运算指令</p>
+<ul>
+<li>加:iadd,fadd,</li>
+<li>减：isub,fsub</li>
+<li>乘：imul,fmul</li>
+<li>除：idiv,fdiv</li>
+<li>求余：irem</li>
+<li>取反：ineg</li>
+<li>位移：ishl,ishr,iushr</li>
+<li>按位或：ior</li>
+<li>按位与：iand</li>
+<li>局部变量自增：iinc</li>
+<li>比较: dcmpg,dcmpl</li>
+</ul>
+</li>
+<li><p>类型转换指令可以将2种不同的数值类型进行相互转换</p>
+<ul>
+<li>无需显示的转换指令，int-&gt;long,long-&gt;float,double</li>
+<li>处理窄化类型转换需要使用显示指令转换，i2b,i2c,i2s</li>
+</ul>
+</li>
+<li><p>对象的创建与访问指令</p>
+<ul>
+<li>创建类实例：new</li>
+<li>创建数组：newarray,anewarray</li>
+<li>访问类字段或实例字段:getfield,putfiled,getstatic,putstatic</li>
+<li>把一个数组元素加载到操作栈:baload,caload,saload</li>
+<li>将一个操作数栈的值存储到数组元数中，bastore,castore</li>
+<li>取数组长度指令：arraylength</li>
+<li>检查类实例指令：instanceof</li>
+</ul>
+</li>
+<li><p>操作数栈管理指令</p>
+<ul>
+<li>将操作数栈的栈顶的一个或2个元素出站：pop,pop2</li>
+<li>复制栈顶一个或2个镇定的数值并重新压入栈顶：dup,dup2</li>
+<li>将栈顶最顶端2个元素互换：swap</li>
+</ul>
+</li>
+<li><p>控制转移指令</p>
+<ul>
+<li>条件分支：ifeq,iflt,ifle</li>
+<li>复合条件分支;tableswitches</li>
+<li>无条件分支： goto</li>
+</ul>
+</li>
+<li><p>方法调用和返回指令</p>
+<ul>
+<li>invokevirtual:调用对象的实例方法</li>
+<li>invokeinterface:调用接口方法，调用实现了该接口方法的方法</li>
+<li>invokespecial:调用一些需要特殊处理的实例方法，包括实例初始化方法，私有方法，和父类方法</li>
+<li>invokestatic:调用类方法</li>
+<li>invokedynamic:用于在运行时动态解析出调用点限定符号引用的方法</li>
+</ul>
+</li>
+<li><p>异常处理指令</p>
+<ul>
+<li>athrow</li>
+</ul>
+</li>
+<li><p>同步指令</p>
+<ul>
+<li>支持方法级别同步，隐式的</li>
+<li>方法内部一段指令序列的同步，通过monitorenter,monitorexit指令来控制</li>
+</ul>
+</li>
+</ol>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a class="article-share-link" data-url="http://chilam.me/2018/06/21/jvm-6/" data-id="cjj1fhz19004530dai1e0misc" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAByklEQVR42u3aS2rEMBAFQN//0g5kFUisea2WhAml1TAIq+xF0x9dV7zu7zX+//6xnnb+3n/tWLi4uG3uPVxjyvj/p+cnex5fHhcX9yA3CVJP+8chbPxpcgMuLu47uUkwShIaXFzc/8fNS5fqC+Di4r6NmxQ/edGSJEPbazVcXNwGt9ow3fF7Y38XFxe3yL2nVhLC+qf88WRcXNwj3Lz9kQ9O+inRh2CHi4t7kDuXoMxdtkg+x2MChIuLu5mbHDmXpsw1QT40THFxcQ9yV3Uh8nRn7kPg4uKe4SbQTshLXiD5QIVGKi4u7iJu0gqpHpMXOeWrn7i4uMe5ndCTDGirXY5ywxQXF7fN3TcUqV78ihIdXFzcI9y54ieqnxopTiHdwcXF3cBN0prON+hf44jujeLi4i7l7g491VFNOWji4uJu4CZlRrXg2Td2xcXFPcPt5BJ5WlM+LB7h4OLi7uB2rl5VQ9h4f3KxAxcX9wy3E1b6Q5F8SIOLi3ueOxe8qsdXWbi4uG/g5sErP6w83U2SG1xc3Bdzq72WahtlcSDDxcXdxk0QncFJFPhwcXEPcueapP3G6LJLGLi4uEu5+ya0eYG0qmTCxcVtc78AgnlswyswSLkAAAAASUVORK5CYII=">Aktie</a><div class="tags"><a href="/tags/java/">java</a></div><div class="post-nav"><a class="pre" href="/2018/06/21/jvm-7/">7.jvm-load</a><a class="next" href="/2018/06/20/mysql-1/">1.mysql-install</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+  owner: 'CasperMXP',
+  repo: 'CasperMXP.github.io',
+  oauth: {
+    client_id: '2cf162fa015e397bb3c9',
+    client_secret: '9c97449f4ec96ac4a1064e819e92fde840e66ec7',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1 pure-u-md-1-4"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1房2人3餐4季/">1房2人3餐4季</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搬砖/">搬砖</a><span class="category-list-count">61</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/Hystrix/" style="font-size: 15px;">Hystrix</a> <a href="/tags/idea/" style="font-size: 15px;">idea</a> <a href="/tags/test/" style="font-size: 15px;">test</a> <a href="/tags/jvm/" style="font-size: 15px;">jvm</a> <a href="/tags/jmm/" style="font-size: 15px;">jmm</a> <a href="/tags/spring-boot/" style="font-size: 15px;">spring-boot</a> <a href="/tags/design-pattern/" style="font-size: 15px;">design-pattern</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/logback/" style="font-size: 15px;">logback</a> <a href="/tags/markdown/" style="font-size: 15px;">markdown</a> <a href="/tags/maths/" style="font-size: 15px;">maths</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/sublime/" style="font-size: 15px;">sublime</a> <a href="/tags/javaee/" style="font-size: 15px;">javaee</a> <a href="/tags/weblogic/" style="font-size: 15px;">weblogic</a> <a href="/tags/win10/" style="font-size: 15px;">win10</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/06/26/mysql-2/">3.mysql-sql</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/21/jvm-7/">7.jvm-load</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/21/jvm-6/">6.jvm-class</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/mysql-1/">1.mysql-install</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/19/jvm-5/">5.jvm-tools</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/18/jvm-4/">4.jvm-gc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/jvm-3/">3.jvm-outOfMemory</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/jvm-2/">2.jvm-memory-area</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/jvm-1/">1.jvm-jdk</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/16/life-dinner-noodle/">黑胡椒意面</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">CHILAM.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" color="100,99,98" opacity="0.7" zIndex="-1" count="30" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="java"><title>4.jvm-gc | CHILAM</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">4.jvm-gc</h1><a id="logo" href="/.">CHILAM</a><p class="description">多读书，多看报，少吃零食，多睡觉</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">4.jvm-gc</h1><div class="post-meta">Jun 18, 2018<span> | </span><span class="category"><a href="/categories/搬砖/">搬砖</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 1,695</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 7</span><span class="post-meta-item-text"> Minutes</span></span></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">Inhalte</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概述"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#引用计数法（Reference-Counting）"><span class="toc-number">1.1.</span> <span class="toc-text">引用计数法（Reference Counting）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可达性分析算法（Reachability-Analysis）"><span class="toc-number">1.2.</span> <span class="toc-text">可达性分析算法（Reachability Analysis）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#引用"><span class="toc-number">1.3.</span> <span class="toc-text">引用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集算法"><span class="toc-number">2.</span> <span class="toc-text">垃圾收集算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标记-清除算法（Mark-Sweep）"><span class="toc-number">2.1.</span> <span class="toc-text">标记-清除算法（Mark-Sweep）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#复制算法（Copying）"><span class="toc-number">2.2.</span> <span class="toc-text">复制算法（Copying）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记整理算法（Mark-Compact）"><span class="toc-number">2.3.</span> <span class="toc-text">标记整理算法（Mark-Compact）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分代收集算法（generational-collection）"><span class="toc-number">2.4.</span> <span class="toc-text">分代收集算法（generational collection）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集器"><span class="toc-number">3.</span> <span class="toc-text">垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial收集器"><span class="toc-number">3.1.</span> <span class="toc-text">Serial收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ParNew收集器"><span class="toc-number">3.2.</span> <span class="toc-text">ParNew收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parallel-Savaenge收集器"><span class="toc-number">3.3.</span> <span class="toc-text">Parallel Savaenge收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serial-Old收集器"><span class="toc-number">3.4.</span> <span class="toc-text">Serial Old收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Parallel-Old收集器"><span class="toc-number">3.5.</span> <span class="toc-text">Parallel Old收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMS收集器（Concurrent-Mark-Sweep）"><span class="toc-number">3.6.</span> <span class="toc-text">CMS收集器（Concurrent Mark Sweep）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#CMS基于标记-清除算法实现"><span class="toc-number">3.6.1.</span> <span class="toc-text">CMS基于标记-清除算法实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#G1收集器-Garbage-First"><span class="toc-number">3.7.</span> <span class="toc-text">G1收集器(Garbage First)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#G1的内存模型"><span class="toc-number">3.7.1.</span> <span class="toc-text">G1的内存模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#G1收集器大致步骤："><span class="toc-number">3.7.2.</span> <span class="toc-text">G1收集器大致步骤：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC-日志"><span class="toc-number">4.</span> <span class="toc-text">GC 日志</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看当前JVM的垃圾收集器"><span class="toc-number">4.1.</span> <span class="toc-text">查看当前JVM的垃圾收集器</span></a></li></ol></li></ol></div></div><div class="post-content"><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><ul>
+<li>当垃圾收集成为系统达到高并发量的瓶颈的时候，我们需要监控和调节。</li>
+</ul>
+<h3 id="引用计数法（Reference-Counting）"><a href="#引用计数法（Reference-Counting）" class="headerlink" title="引用计数法（Reference Counting）"></a>引用计数法（Reference Counting）</h3><ul>
+<li><p>给对象中添加一个引用计数器，每当有一个地方引用，计数器加1，当引用失效的时候就减一。</p>
+</li>
+<li><p>java虚拟机没有采取的原因是很难解决对象之间的相互循环引用的问题</p>
+</li>
+</ul>
+<h3 id="可达性分析算法（Reachability-Analysis）"><a href="#可达性分析算法（Reachability-Analysis）" class="headerlink" title="可达性分析算法（Reachability Analysis）"></a>可达性分析算法（Reachability Analysis）</h3><ul>
+<li><p>通过GC Roots对象作为起点，当一个对象到Gc Roots没有任何的引用链(reference chain)相连的时候，就不可达。</p>
+</li>
+<li><p>java语言中可以作为GC Roots的对象：</p>
+<ul>
+<li><p>虚拟机栈中引用的对象</p>
+</li>
+<li><p>方法区中类静态属性引用的对象</p>
+</li>
+<li><p>方法区中常量引用对象</p>
+</li>
+<li><p>本地方法栈中JNI(Native)引用的对象</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ul>
+<li><p>强引用（Strong reference），程序代码中普遍存在。</p>
+</li>
+<li><p>软引用（Soft Reference）,有用但非必须的对象，发生内存溢出异常之前，会把这些对象列入垃圾回收范围。</p>
+</li>
+<li><p>弱引用（Weak Reference）,非必需的对象，只能生存到下一次垃圾收集发生之前。</p>
+</li>
+<li><p>虚引用（Phantom Reference）,为一个对象设置虚引用唯一目的就是能在这个对象被垃圾收集器回收时的一个系统通知。</p>
+</li>
+</ul>
+<h2 id="垃圾收集算法"><a href="#垃圾收集算法" class="headerlink" title="垃圾收集算法"></a>垃圾收集算法</h2><h3 id="标记-清除算法（Mark-Sweep）"><a href="#标记-清除算法（Mark-Sweep）" class="headerlink" title="标记-清除算法（Mark-Sweep）"></a>标记-清除算法（Mark-Sweep）</h3><ul>
+<li><p>标记：遍历所有的GC Roots,然后将GC roots可达的对象标记为存活</p>
+</li>
+<li><p>清除：清除过程就是遍历所有的对象，将没有标记的对象全部清除掉</p>
+</li>
+<li><p>不足：</p>
+<ul>
+<li><p>效率问题，递归与全堆遍历对象，而且GC的时候要停止应用程序</p>
+</li>
+<li><p>清理出来的空闲内存的不是连续的，空间碎片太多</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="复制算法（Copying）"><a href="#复制算法（Copying）" class="headerlink" title="复制算法（Copying）"></a>复制算法（Copying）</h3><ul>
+<li><p>将可用内存容量划分为大小相等的2块。</p>
+</li>
+<li><p>每次只使用其中的一块，当这一块内存用完了，就将还存活的对象复制到另一块上，然后把已经用过的内存空间一次清理掉。</p>
+</li>
+<li><p>代价就是内存缩小为原来的一半</p>
+</li>
+<li><p>回收新生代</p>
+</li>
+</ul>
+<h3 id="标记整理算法（Mark-Compact）"><a href="#标记整理算法（Mark-Compact）" class="headerlink" title="标记整理算法（Mark-Compact）"></a>标记整理算法（Mark-Compact）</h3><ul>
+<li><p>标记：遍历所有的GC Roots,然后将GC roots可达的对象标记为存活</p>
+</li>
+<li><p>整理：让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存</p>
+</li>
+</ul>
+<h3 id="分代收集算法（generational-collection）"><a href="#分代收集算法（generational-collection）" class="headerlink" title="分代收集算法（generational collection）"></a>分代收集算法（generational collection）</h3><ul>
+<li><p>根据java对象的存活周期的不同划分为几块</p>
+</li>
+<li><p>新生代，每次垃圾回收都会发现有大量对象死去，只有少量存活，可以选择复制算法</p>
+</li>
+<li><p>老年代对象存活较高，没有额外的空间进行担保，使用标记-清理，标记-整理算法</p>
+</li>
+</ul>
+<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p><img src="http://orkt468tj.bkt.clouddn.com/18-6-19/6942426.jpg" alt=""></p>
+<h3 id="Serial收集器"><a href="#Serial收集器" class="headerlink" title="Serial收集器"></a>Serial收集器</h3><ul>
+<li><p>-XX:+UseSerialGC</p>
+</li>
+<li><p>单线程收集器，进行垃圾收集的时候，必须暂停其他所有工作线程，直到收集完成</p>
+</li>
+<li><p>Client模式下默认的新生代收集器 </p>
+</li>
+</ul>
+<h3 id="ParNew收集器"><a href="#ParNew收集器" class="headerlink" title="ParNew收集器"></a>ParNew收集器</h3><ul>
+<li><p>ParNew是Serial的多线程版本，使用多条线程进行垃圾收集。</p>
+</li>
+<li><p>默认的开启的收集线程数与CPU的数量相同</p>
+</li>
+</ul>
+<h3 id="Parallel-Savaenge收集器"><a href="#Parallel-Savaenge收集器" class="headerlink" title="Parallel Savaenge收集器"></a>Parallel Savaenge收集器</h3><ul>
+<li><p>新生代收集器，并发多线程收集器</p>
+</li>
+<li><p>吞吐量，CPU用于运行用户代码时间与CPU总消耗时间的比值</p>
+</li>
+</ul>
+<h3 id="Serial-Old收集器"><a href="#Serial-Old收集器" class="headerlink" title="Serial Old收集器"></a>Serial Old收集器</h3><ul>
+<li><p>Serial收集器的老年代版本</p>
+</li>
+<li><p>单线程收集器</p>
+</li>
+</ul>
+<h3 id="Parallel-Old收集器"><a href="#Parallel-Old收集器" class="headerlink" title="Parallel Old收集器"></a>Parallel Old收集器</h3><ul>
+<li><p>是Parallel Scavenage收集器的老年代版本</p>
+</li>
+<li><p>使用多线程和标记-整理算法</p>
+</li>
+</ul>
+<h3 id="CMS收集器（Concurrent-Mark-Sweep）"><a href="#CMS收集器（Concurrent-Mark-Sweep）" class="headerlink" title="CMS收集器（Concurrent Mark Sweep）"></a>CMS收集器（Concurrent Mark Sweep）</h3><ul>
+<li>获取最短回收暂停时间为目标的收集器</li>
+</ul>
+<h4 id="CMS基于标记-清除算法实现"><a href="#CMS基于标记-清除算法实现" class="headerlink" title="CMS基于标记-清除算法实现"></a>CMS基于标记-清除算法实现</h4><ul>
+<li><p>初始标记（CMS initial mark）,标记GC Roots能直接关联的到对象，用户线程暂停</p>
+</li>
+<li><p>并发标记（CMS concurrent mark），进行GC roots traceing的过程</p>
+</li>
+<li><p>重新标记（CMS remark），修正并发标记期间因用户程序继续运作而导致产生变动的那一部分对象的标记记录，用户线程暂停</p>
+</li>
+<li><p>并发清除（CMS concurrent sweep），浮动垃圾</p>
+</li>
+</ul>
+<h3 id="G1收集器-Garbage-First"><a href="#G1收集器-Garbage-First" class="headerlink" title="G1收集器(Garbage First)"></a>G1收集器(Garbage First)</h3><ul>
+<li><p>面向服务端应用</p>
+</li>
+<li><p>G1算法将堆划分为如干个区域（Region),它任然属于分代收集器</p>
+</li>
+<li><p>G1跟踪各个Region里面的垃圾堆积的价值大小（回收空间大小好和时间经验值）-优先级的区域回收</p>
+</li>
+<li><p>G1中每个region都有一个与之对应的Rememberd Set,来记录Region之间的对象引用，避免全堆扫描</p>
+</li>
+</ul>
+<h4 id="G1的内存模型"><a href="#G1的内存模型" class="headerlink" title="G1的内存模型"></a>G1的内存模型</h4><p><img src="http://orkt468tj.bkt.clouddn.com/18-6-19/21427512.jpg" alt=""></p>
+<ul>
+<li><p>Region：G1采用了分区(Region)的思路，将整个堆空间分成若干个大小相等的内存区域，每次分配对象空间将逐段地使用内存。</p>
+</li>
+<li><p>Card:在每个分区内部又被分成了若干个大小为512 Byte卡片</p>
+</li>
+<li><p>Remebered Set:记录引用分区内对象的卡片索引</p>
+</li>
+<li><p>Per Region Set:记录分区引用情况</p>
+<ul>
+<li><p>稀少：直接记录引用对象的卡片索引</p>
+</li>
+<li><p>细粒度：直接记录引用对象的分区索引</p>
+</li>
+<li><p>粗粒度：只记录引用情况</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="G1收集器大致步骤："><a href="#G1收集器大致步骤：" class="headerlink" title="G1收集器大致步骤："></a>G1收集器大致步骤：</h4><ul>
+<li><p>初始标记（Initial Marking）:标记GC Roots能直接关联的对象，STW。</p>
+</li>
+<li><p>并发标记（Concurrent Marking）：从GC Roots开始对堆中对象进行可达性分析，找出存活对象。</p>
+</li>
+<li><p>最终标记（Final Marking）：修正并发标记期间，应用程序继续运作而导致标记产生变化。</p>
+</li>
+<li><p>筛选回收（Live Data Counting And Evacuation）:对分区的回收价值和成本进行排序。</p>
+</li>
+</ul>
+<h2 id="GC-日志"><a href="#GC-日志" class="headerlink" title="GC 日志"></a>GC 日志</h2><figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="name">GC</span> (<span class="name">Allocation</span> Failure) [<span class="name">PSYoungGen:</span> <span class="number">5131</span>K-&gt;488K(<span class="name">6144K</span>)] <span class="number">5131</span>K-&gt;2824K(<span class="name">19968K</span>), <span class="number">0.0066449</span> secs] [<span class="name">Times:</span> user=0.03 sys=0.00, real=0.01 secs] </span><br><span class="line">[<span class="name">GC</span> (<span class="name">Allocation</span> Failure) [<span class="name">PSYoungGen:</span> <span class="number">6120</span>K-&gt;504K(<span class="name">6144K</span>)] <span class="number">8456</span>K-&gt;6871K(<span class="name">19968K</span>), <span class="number">0.0080173</span> secs] [<span class="name">Times:</span> user=0.05 sys=0.00, real=0.01 secs] </span><br><span class="line">[<span class="name">GC</span> (<span class="name">Allocation</span> Failure) [<span class="name">PSYoungGen:</span> <span class="number">6136</span>K-&gt;488K(<span class="name">6144K</span>)] <span class="number">12503</span>K-&gt;12533K(<span class="name">19968K</span>), <span class="number">0.0088154</span> secs] [<span class="name">Times:</span> user=0.00 sys=0.00, real=0.01 secs] </span><br><span class="line">[<span class="name">Full</span> GC (<span class="name">Ergonomics</span>) [<span class="name">PSYoungGen:</span> <span class="number">488</span>K-&gt;0K(<span class="name">6144K</span>)] [<span class="name">ParOldGen:</span> <span class="number">12045</span>K-&gt;10625K(<span class="name">13824K</span>)] <span class="number">12533</span>K-&gt;10625K(<span class="name">19968K</span>), [<span class="name">Metaspace:</span> <span class="number">3450</span>K-&gt;3450K(<span class="name">1056768K</span>)], <span class="number">0.2151649</span> secs] [<span class="name">Times:</span> user=0.30 sys=0.00, real=0.22 secs] </span><br><span class="line">[<span class="name">Full</span> GC (<span class="name">Ergonomics</span>) [<span class="name">PSYoungGen:</span> <span class="number">5632</span>K-&gt;511K(<span class="name">6144K</span>)] [<span class="name">ParOldGen:</span> <span class="number">10625</span>K-&gt;13522K(<span class="name">13824K</span>)] <span class="number">16257</span>K-&gt;14034K(<span class="name">19968K</span>), [<span class="name">Metaspace:</span> <span class="number">3450</span>K-&gt;3450K(<span class="name">1056768K</span>)], <span class="number">0.1473456</span> secs] [<span class="name">Times:</span> user=0.25 sys=0.00, real=0.15 secs] </span><br><span class="line">[<span class="name">Full</span> GC (<span class="name">Ergonomics</span>) [<span class="name">PSYoungGen:</span> <span class="number">3047</span>K-&gt;3028K(<span class="name">6144K</span>)] [<span class="name">ParOldGen:</span> <span class="number">13522</span>K-&gt;13522K(<span class="name">13824K</span>)] <span class="number">16569</span>K-&gt;16551K(<span class="name">19968K</span>), [<span class="name">Metaspace:</span> <span class="number">3450</span>K-&gt;3450K(<span class="name">1056768K</span>)], <span class="number">0.1480399</span> secs] [<span class="name">Times:</span> user=0.36 sys=0.00, real=0.15 secs]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>PSYoungGen: Parallel Scavenge</li>
+<li>ParOldGen: Parallel Old</li>
+</ul>
+<h3 id="查看当前JVM的垃圾收集器"><a href="#查看当前JVM的垃圾收集器" class="headerlink" title="查看当前JVM的垃圾收集器"></a>查看当前JVM的垃圾收集器</h3><ul>
+<li>java -XX:+PrintCommandLineFlags -version</li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$  java -XX:+PrintCommandLineFlags -version</span><br><span class="line">-XX:<span class="attribute">InitialHeapSize</span>=196028608 -XX:<span class="attribute">MaxHeapSize</span>=3136457728 -XX:+PrintCommandLineFlags </span><br><span class="line">-XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:-UseLargePagesIndividualAllocation -XX:+UseParallelGC</span><br><span class="line">java version <span class="string">"1.8.0_162"</span></span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_162-b12)</span><br><span class="line">Java HotSpot(TM) 64-Bit<span class="built_in"> Server </span>VM (build 25.162-b12, mixed mode)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>代码</li>
+</ul>
+<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta"><span class="meta-keyword">import</span> java.lang.management.GarbageCollectorMXBean;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> java.lang.management.ManagementFactory;</span></span><br><span class="line"><span class="meta"><span class="meta-keyword">import</span> java.util.List;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestHeap</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</span><br><span class="line">        List&lt;GarbageCollectorMXBean&gt; l = ManagementFactory.getGarbageCollectorMXBeans();</span><br><span class="line">        <span class="keyword">for</span>(GarbageCollectorMXBean b : l) &#123;</span><br><span class="line">            System.out.println(b.getName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">PS Scavenge</span><br><span class="line">PS MarkSweep</span><br></pre></td></tr></table></figure>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a class="article-share-link" data-url="http://chilam.me/2018/06/18/jvm-4/" data-id="cjj1fhz19004130daiobm3v2n" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwElEQVR42u3ay24DIQwF0Pz/T0+3laqSawzuQ4dV1JThZGMN13694vV8WZ//vrdrvbe1cHFx29xnudb/k6OTz+tTcHFx57nVY757XF6wkh+Mi4v7V7g5a/1kXFzc/8dNEGscLi7u7+d2rjf5Ban6LS4u7k9x85Ty3ucr+S4uLu4W9ymuvcKX733zZFxc3BFu//WlcExysUkuVLi4uIPcpPQcCDUaQxu4uLiT3Grj5FRJShot0RAGLi7uIHcvvqxeljYLJS4u7jXuuiFaHbHaG8hIxrxwcXEnuXmzZH3wXqmqtm1wcXF/D7c6epVHKtXWCy4u7gw3CTSrLzqbMUfyY3BxcQe5nZGLQvNjK3wpT4vg4uK2uXtDVNXpys6w5mYggouLe4jbCT7yI/uNGVxc3EluHn0m5a/aPikErLi4uOPc5JgkLsmbrOUxL1xc3Mvcp7g6u/J49JVvwMXFvcDNV/KKU220dNq6uLi4t7mnrjp7rdPyyxAuLu4gtzqEsRej7F1+yrEILi7uODdvmfSvXgcKGS4u7gg3Z50KOw7XXVxc3JjbGdlMLjnVMOVNkxUXF/cyt1pK1tB7bRtcXNwR7gc7qkjnn7SDDAAAAABJRU5ErkJggg==">Aktie</a><div class="tags"><a href="/tags/java/">java</a></div><div class="post-nav"><a class="pre" href="/2018/06/19/jvm-5/">5.jvm-tools</a><a class="next" href="/2018/06/17/jvm-3/">3.jvm-outOfMemory</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+  owner: 'CasperMXP',
+  repo: 'CasperMXP.github.io',
+  oauth: {
+    client_id: '2cf162fa015e397bb3c9',
+    client_secret: '9c97449f4ec96ac4a1064e819e92fde840e66ec7',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1 pure-u-md-1-4"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1房2人3餐4季/">1房2人3餐4季</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搬砖/">搬砖</a><span class="category-list-count">61</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/Hystrix/" style="font-size: 15px;">Hystrix</a> <a href="/tags/idea/" style="font-size: 15px;">idea</a> <a href="/tags/test/" style="font-size: 15px;">test</a> <a href="/tags/jvm/" style="font-size: 15px;">jvm</a> <a href="/tags/jmm/" style="font-size: 15px;">jmm</a> <a href="/tags/spring-boot/" style="font-size: 15px;">spring-boot</a> <a href="/tags/design-pattern/" style="font-size: 15px;">design-pattern</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/logback/" style="font-size: 15px;">logback</a> <a href="/tags/markdown/" style="font-size: 15px;">markdown</a> <a href="/tags/maths/" style="font-size: 15px;">maths</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/sublime/" style="font-size: 15px;">sublime</a> <a href="/tags/javaee/" style="font-size: 15px;">javaee</a> <a href="/tags/weblogic/" style="font-size: 15px;">weblogic</a> <a href="/tags/win10/" style="font-size: 15px;">win10</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/06/26/mysql-2/">3.mysql-sql</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/21/jvm-7/">7.jvm-load</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/21/jvm-6/">6.jvm-class</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/mysql-1/">1.mysql-install</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/19/jvm-5/">5.jvm-tools</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/18/jvm-4/">4.jvm-gc</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/jvm-3/">3.jvm-outOfMemory</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/jvm-2/">2.jvm-memory-area</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/jvm-1/">1.jvm-jdk</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/16/life-dinner-noodle/">黑胡椒意面</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">CHILAM.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" color="100,99,98" opacity="0.7" zIndex="-1" count="30" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
