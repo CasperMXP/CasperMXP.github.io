@@ -1,0 +1,100 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="java"><title>2.读书笔记《Java并发编程艺术》-并发机制的底层实现原理 | CHILAM</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">2.读书笔记《Java并发编程艺术》-并发机制的底层实现原理</h1><a id="logo" href="/.">CHILAM</a><p class="description">多读书，多看报，少吃零食，多睡觉</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">2.读书笔记《Java并发编程艺术》-并发机制的底层实现原理</h1><div class="post-meta">Jul 2, 2018<span> | </span><span class="category"><a href="/categories/搬砖/">搬砖</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 1,535</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 5</span><span class="post-meta-item-text"> Minutes</span></span></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">Inhalte</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile"><span class="toc-number">2.</span> <span class="toc-text">volatile</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-number">2.1.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU术语"><span class="toc-number">2.2.</span> <span class="toc-text">CPU术语</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volatile如何实现可见性"><span class="toc-number">2.3.</span> <span class="toc-text">volatile如何实现可见性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized的实现原理和应用"><span class="toc-number">3.</span> <span class="toc-text">synchronized的实现原理和应用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#表现形式"><span class="toc-number">3.1.</span> <span class="toc-text">表现形式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现原理"><span class="toc-number">3.2.</span> <span class="toc-text">实现原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#锁的升级和对比"><span class="toc-number">4.</span> <span class="toc-text">锁的升级和对比</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#锁的优缺点对比"><span class="toc-number">4.1.</span> <span class="toc-text">锁的优缺点对比</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#偏向锁"><span class="toc-number">4.1.1.</span> <span class="toc-text">偏向锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#轻量级锁"><span class="toc-number">4.1.2.</span> <span class="toc-text">轻量级锁</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重量级锁"><span class="toc-number">4.1.3.</span> <span class="toc-text">重量级锁</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原子操作的实现原理"><span class="toc-number">5.</span> <span class="toc-text">原子操作的实现原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#处理器如何实现原子操作"><span class="toc-number">5.1.</span> <span class="toc-text">处理器如何实现原子操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java如何实现原子操作"><span class="toc-number">5.2.</span> <span class="toc-text">java如何实现原子操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#使用循环CAS实现原子操作"><span class="toc-number">5.2.1.</span> <span class="toc-text">使用循环CAS实现原子操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ABA"><span class="toc-number">5.2.2.</span> <span class="toc-text">ABA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#循环时间开销大"><span class="toc-number">5.2.3.</span> <span class="toc-text">循环时间开销大</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#只能保证一个共享变量的原子操作"><span class="toc-number">5.2.4.</span> <span class="toc-text">只能保证一个共享变量的原子操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用锁机制实现原子操作"><span class="toc-number">5.3.</span> <span class="toc-text">使用锁机制实现原子操作</span></a></li></ol></li></ol></div></div><div class="post-content"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Java代码在编译成Class字节码，字节码被类加载器加载到JVM里，JVM执行字节码，最终转换成汇编指令在CPU上运行，Java中使用的并发机制依赖JVM的实现和CPU指令。</p>
+<h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><ul>
+<li>轻量级的synchronized</li>
+<li>可见性, 当一个线程修改的时候一个共享变量的时候，另一个线程能读取这个修改的值。</li>
+<li>不会引起上下文的切换和调度</li>
+</ul>
+<h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>java语言提供了volatile,在某些情况下，比锁更加方便，如果一个字段被声明成volatile，java线程内存模型确保所有的线程看到这个变量的值是一致的。</p>
+<h3 id="CPU术语"><a href="#CPU术语" class="headerlink" title="CPU术语"></a>CPU术语</h3><ul>
+<li>内存屏障，处理器指令，实现对内存操作的顺序的限制</li>
+<li>缓冲行，CPU高速缓存中可以分配的最小单位</li>
+<li>原子操作，不可中断的一个操作</li>
+<li>缓存行填充，当处理器识别到从内存中读取的操作数是可缓存的，处理器将读取整个缓存行到适当的缓存</li>
+<li>缓存命中，从高速缓存行填写的操作的内存位置任然是下一次处理器访问的地址的时候</li>
+<li>写命中，当处理器将操作数写回到一个内存缓存的区域的时候，首先会检查这个缓存的内存地址是否在缓存行中，如果存在写会缓存，而不是写会内存。</li>
+<li>写缺失，一个有效的缓存行被写入到不存在的内存区域。</li>
+</ul>
+<h3 id="volatile如何实现可见性"><a href="#volatile如何实现可见性" class="headerlink" title="volatile如何实现可见性"></a>volatile如何实现可见性</h3><ul>
+<li>通过JIT编译器生成汇编指令来查看volatile进行写操作的时候，CPU会执行什么？ </li>
+<li>有volatile的修饰的共享变量进行写操作的时候，会多出lock修饰的第二行汇编代码，通过查询IA-32架构软件开发手册可知Lock指令在多核处理器下：<ul>
+<li>处理器处理缓存行的数据写会系统内存<ul>
+<li>锁住缓存，一般锁总线，锁总线导致不能访问系统内存</li>
+</ul>
+</li>
+<li>这个写内存的操作会使其他CPU里缓存了该内存地址的数据无效。<ul>
+<li>使用MESI(修改独占共享无效)控制协议来维护内部缓存和其他处理器缓存的一致性</li>
+<li>处理器使用嗅探技术保证它的内部缓存，系统内存，和其他处理器的缓存的数据在总线上输保持一致的。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="synchronized的实现原理和应用"><a href="#synchronized的实现原理和应用" class="headerlink" title="synchronized的实现原理和应用"></a>synchronized的实现原理和应用</h2><ul>
+<li>存在Java对象头里的，java对象头里的mark word默认存储对象的hashcode,分代年龄和锁标记。</li>
+</ul>
+<h3 id="表现形式"><a href="#表现形式" class="headerlink" title="表现形式"></a>表现形式</h3><ul>
+<li>对于普通同步方法，锁是当前实例对象</li>
+<li>对于静态同步方法，锁是当前类的Class对象</li>
+<li>对于同步方法块，锁是synchronized括号里配置的对象</li>
+</ul>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><ul>
+<li>JVM基于进入和退出，Monitor对象来实现方法同步和代码块同步。</li>
+<li>monitorenter指令是在编译后插入到同步代码块的开始位置</li>
+<li>monitorexit指令插入到方法结束处和异常处</li>
+</ul>
+<h2 id="锁的升级和对比"><a href="#锁的升级和对比" class="headerlink" title="锁的升级和对比"></a>锁的升级和对比</h2><p>java1.6为了减少获得锁和释放锁带来的性能消耗，引入了偏向锁和轻量级锁，在java1.6中锁有4种状态，级别从低到高：</p>
+<ul>
+<li>无锁状态</li>
+<li>偏向锁状态</li>
+<li>轻量级锁状态</li>
+<li>重量级锁状态</li>
+</ul>
+<p>这个状态会随着竞争逐渐升级，但不会降级。</p>
+<h3 id="锁的优缺点对比"><a href="#锁的优缺点对比" class="headerlink" title="锁的优缺点对比"></a>锁的优缺点对比</h3><h4 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h4><ul>
+<li>优点，加解锁不需要额外的消耗，和执行非同步方法相比仅存纳秒级别的差距</li>
+<li>缺点，如果线程存在锁竞争，会带来额外的撤销锁的消耗</li>
+<li>场景，只有一个线程访问同步块场景</li>
+</ul>
+<h4 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h4><ul>
+<li>优点，竞争的线程不会阻塞，提高程序的响应性能</li>
+<li>缺点，如果始终得不到锁竞争的线程，使用自旋会消耗CPU</li>
+<li>场景，追求响应时间，同步代码块执行速度非常快</li>
+</ul>
+<h4 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h4><ul>
+<li>优点，线程竞争不使用自旋，不消耗CPU</li>
+<li>缺点，线程阻塞，响应时间很慢</li>
+<li>场景，追求吞吐量，同步块执行时间很长</li>
+</ul>
+<h2 id="原子操作的实现原理"><a href="#原子操作的实现原理" class="headerlink" title="原子操作的实现原理"></a>原子操作的实现原理</h2><p>不可被中断的一个或一系列操作。</p>
+<h3 id="处理器如何实现原子操作"><a href="#处理器如何实现原子操作" class="headerlink" title="处理器如何实现原子操作"></a>处理器如何实现原子操作</h3><ul>
+<li>基于缓存加锁或总线加锁的方式来实现多处理之间的原子操作</li>
+<li>处理器保证从系统内存中读取或写入一个字节是原子的</li>
+</ul>
+<h3 id="java如何实现原子操作"><a href="#java如何实现原子操作" class="headerlink" title="java如何实现原子操作"></a>java如何实现原子操作</h3><h4 id="使用循环CAS实现原子操作"><a href="#使用循环CAS实现原子操作" class="headerlink" title="使用循环CAS实现原子操作"></a>使用循环CAS实现原子操作</h4><p>JVM中的CAS操作正是利用了处理器提供的CMPXCHG指令实现的。自旋CAS实现的基本思路循环进行CAS操作直到成功为止。</p>
+<h4 id="ABA"><a href="#ABA" class="headerlink" title="ABA"></a>ABA</h4><ul>
+<li>描述，如果一个值原来是A,变成了B,又变成了A，那么使用CAS进行检查的时候会发现它的值没有发生变化，但实际上发生了变化。</li>
+<li>解决思路,在变量前面加上版本号，每次变量更新的时候把版本号加1，从JDk1.5提供了AtomicStampedReferenced来解决ABA,首先检查当前引用是否等于预期引用，并且检查当前标志是都等于预期标志，如果全相等，则以原子方式将该引用的值设置为给定的更新值。</li>
+</ul>
+<h4 id="循环时间开销大"><a href="#循环时间开销大" class="headerlink" title="循环时间开销大"></a>循环时间开销大</h4><ul>
+<li>自旋CAS如果长时间不成功的话，会给CPU带来非常大的执行开销。</li>
+</ul>
+<h4 id="只能保证一个共享变量的原子操作"><a href="#只能保证一个共享变量的原子操作" class="headerlink" title="只能保证一个共享变量的原子操作"></a>只能保证一个共享变量的原子操作</h4><h3 id="使用锁机制实现原子操作"><a href="#使用锁机制实现原子操作" class="headerlink" title="使用锁机制实现原子操作"></a>使用锁机制实现原子操作</h3><ul>
+<li>锁机制保证了只有获得锁的线程才能够操作锁定的内存区域。JVM内部实现了很多锁的机制。</li>
+<li>JVM实现琐的方式都是用了循环CAS，即当一个线程想进入同步块的时候会使用循环CAS的方式来实现获取锁，当它退出同步代码块的时候使用CAS循环释放锁。</li>
+</ul>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a class="article-share-link" data-url="http://chilam.me/2018/07/02/jmm-2-con-impl/" data-id="cjj3y9gsb003r24dagqdofajg" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMYAAADGCAAAAACs8KCBAAACJElEQVR42u3aQY6DMAwF0N7/0ow0u1FV+LbpSCSPVUWhycvCteO8XvF1/F7n94+369O7+bc3XxgYGI9lHKdXMt1Pz1fv9MbCwMDYh9ELpkmI/PR8vmTRHwAGBgZGHAST4DhJHDEwMDB6BWpy5zwdxMDAwEgYvaK0ukFWRX6lFsfAwHggo9oY+M/PX+xvYGBgPITRK0STgNgbtzkrDAyMpRnV4w7JFn+eFFZTw4twjIGBsSjj/KerU5wcoZgcyMDAwFibUQ2Oky2zamMgHx0DA2NtRq9ZmJSd1Q210UExDAyMbRgJpndIIkkxezP5s2uIgYGxNGO+BfaNtwrvYmBgbMBIwmJeiOYHufIRC/8bGBgYyzF6r/Ummi/BKFXFwMBYjtErSqsNgB4YAwMD472ITYbsHcuobr1V2xIYGBg7MHoBNykse3eqzQYMDIzdGNUAWk3s8qUZ1d8YGBgLMXpBtneoK29J9pYSAwNjB8Z5ElZoIlabjq1Qi4GBsQ9jPqG8uL0rcN+wThgYGA9k3Lt9nySFySj5b2JgYKzNKDwUH6fIt9KqyeLF4mJgYCzKOIpXrw0wTxAvvsXAwFiaUd3wqg7Taz/0Ek0MDIy1GXmQ7bUQqrlqnm5iYGDsxsiDbJ7Y3dvOxMDAwJgkcAkjP3BWbZRiYGBgVKvenDdpZ170YzEwMBZl9JoBvQK1t3xRJxYDA2NRxqQxkD/TO142X1YMDIyHM34ASC+yUKeqzk8AAAAASUVORK5CYII=">Aktie</a><div class="tags"><a href="/tags/jmm/">jmm</a></div><div class="post-nav"><a class="next" href="/2018/07/02/jmm-1-introduce/">1.读书笔记《Java并发编程艺术》-并发编程的挑战</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+  owner: 'CasperMXP',
+  repo: 'CasperMXP.github.io',
+  oauth: {
+    client_id: '2cf162fa015e397bb3c9',
+    client_secret: '9c97449f4ec96ac4a1064e819e92fde840e66ec7',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1 pure-u-md-1-4"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1房2人3餐4季/">1房2人3餐4季</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搬砖/">搬砖</a><span class="category-list-count">62</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/Hystrix/" style="font-size: 15px;">Hystrix</a> <a href="/tags/idea/" style="font-size: 15px;">idea</a> <a href="/tags/test/" style="font-size: 15px;">test</a> <a href="/tags/jmm/" style="font-size: 15px;">jmm</a> <a href="/tags/jvm/" style="font-size: 15px;">jvm</a> <a href="/tags/spring-boot/" style="font-size: 15px;">spring-boot</a> <a href="/tags/links/" style="font-size: 15px;">links</a> <a href="/tags/design-pattern/" style="font-size: 15px;">design-pattern</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/logback/" style="font-size: 15px;">logback</a> <a href="/tags/markdown/" style="font-size: 15px;">markdown</a> <a href="/tags/maths/" style="font-size: 15px;">maths</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/sublime/" style="font-size: 15px;">sublime</a> <a href="/tags/javaee/" style="font-size: 15px;">javaee</a> <a href="/tags/weblogic/" style="font-size: 15px;">weblogic</a> <a href="/tags/win10/" style="font-size: 15px;">win10</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/07/02/jmm-2-con-impl/">2.读书笔记《Java并发编程艺术》-并发机制的底层实现原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/07/02/jmm-1-introduce/">1.读书笔记《Java并发编程艺术》-并发编程的挑战</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/26/mysql-2/">3.mysql-sql</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/mysql-1/">1.mysql-install</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/links/">1.收藏的一些链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/16/life-dinner-noodle/">黑胡椒意面</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-8/">8.sb-原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-7/">7.sb-jdbcTemplate</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-6/">6.sb-DevTools</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-5/">5.sb-Swagger</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">CHILAM.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" color="100,99,98" opacity="0.7" zIndex="-1" count="30" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
