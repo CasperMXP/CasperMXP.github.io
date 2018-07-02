@@ -1,0 +1,124 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="java"><title>4.读书笔记《Java并发编程艺术》-线程 | CHILAM</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">4.读书笔记《Java并发编程艺术》-线程</h1><a id="logo" href="/.">CHILAM</a><p class="description">多读书，多看报，少吃零食，多睡觉</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">4.读书笔记《Java并发编程艺术》-线程</h1><div class="post-meta">Jul 6, 2016<span> | </span><span class="category"><a href="/categories/搬砖/">搬砖</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 3,021</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 11</span><span class="post-meta-item-text"> Minutes</span></span></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">Inhalte</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#线程简介"><span class="toc-number">1.</span> <span class="toc-text">线程简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么使用多线程"><span class="toc-number">1.1.</span> <span class="toc-text">为什么使用多线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程优先级"><span class="toc-number">1.2.</span> <span class="toc-text">线程优先级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的状态"><span class="toc-number">1.3.</span> <span class="toc-text">线程的状态</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程状态变迁图"><span class="toc-number">1.3.1.</span> <span class="toc-text">线程状态变迁图</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程调度和常用内部方法"><span class="toc-number">2.</span> <span class="toc-text">线程调度和常用内部方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程交互和协作方法"><span class="toc-number">2.1.</span> <span class="toc-text">线程交互和协作方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#注意事项"><span class="toc-number">2.1.1.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#休眠"><span class="toc-number">2.2.</span> <span class="toc-text">休眠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#让步"><span class="toc-number">2.3.</span> <span class="toc-text">让步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#合并"><span class="toc-number">2.4.</span> <span class="toc-text">合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#守护线程"><span class="toc-number">2.5.</span> <span class="toc-text">守护线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#中断"><span class="toc-number">2.6.</span> <span class="toc-text">中断</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Runable与Callable"><span class="toc-number">3.</span> <span class="toc-text">Runable与Callable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Future和FutureTask"><span class="toc-number">4.</span> <span class="toc-text">Future和FutureTask</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程池"><span class="toc-number">5.</span> <span class="toc-text">线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java中的ThreadPoolExecutor类"><span class="toc-number">5.1.</span> <span class="toc-text">Java中的ThreadPoolExecutor类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注：execute和submit的区别在于："><span class="toc-number">5.2.</span> <span class="toc-text">注：execute和submit的区别在于：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池的关闭"><span class="toc-number">5.2.1.</span> <span class="toc-text">线程池的关闭</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池的状态"><span class="toc-number">5.3.</span> <span class="toc-text">线程池的状态</span></a></li></ol></li></ol></div></div><div class="post-content"><h2 id="线程简介"><a href="#线程简介" class="headerlink" title="线程简介"></a>线程简介</h2><ul>
+<li>现代操作系统的调度的最小单元</li>
+</ul>
+<h3 id="为什么使用多线程"><a href="#为什么使用多线程" class="headerlink" title="为什么使用多线程"></a>为什么使用多线程</h3><ul>
+<li>更多处理器核心</li>
+<li>更快的响应时间</li>
+<li>更好的编程模型</li>
+</ul>
+<h3 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h3><ul>
+<li>int的整形变量priority来控制优先级，1-10，默认是5</li>
+</ul>
+<h3 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h3><ul>
+<li>new,初始状态，线程被构建，但是还没有调用start()方法</li>
+<li>runnable,运行状态调用start()方法后</li>
+<li>blocked,阻塞状态</li>
+<li>waiting，等待状态</li>
+<li>time_waiting,超时等待状态，可以在制定的时间自动返回</li>
+<li>terminated,终止状态</li>
+</ul>
+<h4 id="线程状态变迁图"><a href="#线程状态变迁图" class="headerlink" title="线程状态变迁图"></a>线程状态变迁图</h4><p><img src="http://orkt468tj.bkt.clouddn.com/18-7-2/84475752.jpg" alt=""></p>
+<h2 id="线程调度和常用内部方法"><a href="#线程调度和常用内部方法" class="headerlink" title="线程调度和常用内部方法"></a>线程调度和常用内部方法</h2><h3 id="线程交互和协作方法"><a href="#线程交互和协作方法" class="headerlink" title="线程交互和协作方法"></a>线程交互和协作方法</h3><ul>
+<li>wait()：调用一个对象的wait方法，会导致当前持有该对象锁的线程等待，直到该对象的另一个持锁线程调用notify/notifyAll唤醒。</li>
+<li>wait(long timeout)：与wait相似，不过除了被notify/notifyAll唤醒以外，超过long定义的超时时间，也会自动唤醒。</li>
+<li>wait(long timeout, int nanos):与wait(long)相同，不过nanos可以提供纳秒(毫微秒)级别的更精确的超时控制。</li>
+<li>notify()：调用一个对象的notify()方法，会导致当前持有该对象锁的所有线程中的随机某一个线程被唤醒。</li>
+<li>notifyAll()：调用一个对象的notifyAll()，会导致当前持有该对象锁的所有线程同时被唤醒。</li>
+</ul>
+<h4 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h4><ol>
+<li>对于wait/notify/notifyAll的调用，必须在该对象的同步方法或同步代码块中。当然，一个Thread实例也是一个对象，所以，对于thread自身的同步代码内，可以调用自身的wait。</li>
+<li>wait方法的调用会释放锁，而sleep或yield不会。</li>
+<li>当wait被唤醒或超时时，并不是直接进入运行态或就绪态，而是先进入Blocked态，抢锁成功，才能进入运行态。</li>
+<li>notify和notifyAll的区别在于：<ol>
+<li>notify唤醒的是对象多个锁线程中的一个线程，这个线程进入Blocked状态，开始抢锁，当这个线程执行完释放锁的时候，即使现在没有其它线程占用锁，其它处于wait状态的线程也会继续等待notify而不是主动去抢锁。</li>
+<li>notifyAll要残酷的多，一单notifyAll消息发出，所有wait在这个对象上的线程都会去抢锁，抢到锁的执行，其它线程Blocked在这个锁上，当抢到锁的线程执行完成释放锁之后，其它线程自动抢锁。</li>
+<li>也就是说，线程wait后的唤醒过程必须是：wait-notify-抢锁-执行-释放锁。</li>
+</ol>
+</li>
+<li>notify和wait必须加循环进行保证，这是一个良好的编程习惯，这是因为，没有循环条件保证的话，如果有多个wait线程在等待notify，当notifyAll发出时，两个wait线程同时被唤醒，进入RUNABLE状态，如果此时他们竞争一个非锁资源，则只有一个能抢到，另一个虽然抢不到，但因为是非锁资源，所以会继续执行，就容易造成问题。</li>
+</ol>
+<h3 id="休眠"><a href="#休眠" class="headerlink" title="休眠"></a>休眠</h3><ul>
+<li>sleep方法如其名，是让线程休眠的，而且是那个线程调用，就是哪个线程休眠。可以是调用TimeUtil.sleep(long)、Thread.sleep(long)，或当前线程对象t上的t.sleep(long)，其结果都是当前线程休眠。</li>
+<li>在sleep休眠期间，线程会释放出CPU资源给其它线程，但线上本身仍占有锁，而不会释放锁。</li>
+</ul>
+<h3 id="让步"><a href="#让步" class="headerlink" title="让步"></a>让步</h3><ul>
+<li>Java的让步使用的是Thread.yield()静态方法，功能是暂停当前线程的执行，并让步于其它同优先级线程，让其它线程先执行。</li>
+<li>yield()仅仅是让出CPU资源，但是让给谁，是由系统决定的，是不确定的，当前线程使用yield()让出资源后，线程不会释放锁，而是回到就绪状态，等待调度执行。</li>
+</ul>
+<h3 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h3><p>java线程见合并，使用的是join方法。join()方法做的事情是将并行执行的线程合并为串行执行的，例如，如果在线程ta中调用tb.join()，则ta会停止当前执行，并让tb先执行，直到tb执行完毕，ta才会继续执行。</p>
+<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><p>如果对一个线程t，调用t. setDaemon(true)，则可以将该线程设置为守护线程，JVM判断程序运行结束的标准是所有用户线程执行完成，当用户线程全部结束，即使守护线程仍在运行，或尚未开始，JVM都会结束。</p>
+<ul>
+<li>不能将正在运行的线程设置为守护线程，因此t.setDaemon(true)方法必须在t.start()之前调用；</li>
+<li>守护线程一般用来做GC、后台监控、内存管理等后台型任务，且这些任务即使随时被结束，也不影响整体程序的运行。</li>
+</ul>
+<h3 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h3><p>在Java线程中，中断有且只有一个含义，就是让线程退出阻塞状态，t.interrupt()只是向线程t发出一个中断信号，让该线程退出阻塞状态。</p>
+<ul>
+<li>如果线程t当前是可中断的阻塞状态（如调用了sleep、join等方法导致线程进入WATING / TIMED_WAITING状态），在任意其它线程中调用t.interrupt()，那么线程会立即抛出一个InterruptedException，退出阻塞状态；- 如果是调用wait进入的WAITING / TIMED_WAITING状态，调用了t.interrupt()后，需要先等线程抢到锁，脱离BLOCKED状态，才会抛出InterruptExceptiong；</li>
+<li>如果线程t当前是不可中断的阻塞状态（如不能中断的IO操作、尚未获取锁的BLOCKED状态），调用了t.interrupt()后，则需要等到脱离了阻塞状态之后，才立即抛出InterruptedException；</li>
+<li>如果线程t当前处在运行状态，则调用了t.interrupt()，线程会继续运行，直到发生了sleep、join、wait等方法的调用，才会在进入阻塞之后，随后立即抛出InterruptedException，跳出阻塞状态；</li>
+</ul>
+<h2 id="Runable与Callable"><a href="#Runable与Callable" class="headerlink" title="Runable与Callable"></a>Runable与Callable</h2><ol>
+<li>Runnable是JDK1.1中就出现的，属于包java.lang，而Callable是在JDK1.5才提供的，属于java.util.concurrent；</li>
+<li>Runnable中要实现的是void run()方法，没有返回值，而Callable要实现的是V call()方法，返回一个泛型V的返回值（通过Future.get()方法获取）；</li>
+<li>Runnable中抛出的异常，在线程外是无法捕获的，而Callable是可以抛出Exception；</li>
+<li>Runnable和Callable都可以用于ExecutorService，而Thread类只支持Runnable，当然，可以用FutureTask对Callable进行封装，并用Thread类才能运行；</li>
+<li>运行Callable可以得到一个Future对象，用于表示异步计算的结果，类似于CallBack，而Runable不行；</li>
+</ol>
+<h2 id="Future和FutureTask"><a href="#Future和FutureTask" class="headerlink" title="Future和FutureTask"></a>Future和FutureTask</h2><ul>
+<li>Future是对Runnable或Callable的任务结果进行查询、获取结果、取消等操作的异步管理类；</li>
+<li>Future是一个接口，无法用于直接创建对象，而且Runnable也无法直接用Future，所以就有了FutureTask，FutureTask也位于java.util.concurrent包，FutureTask实际上同时实现了Future接口和Runnable接口，所以它既可以作为Runnable被Thread线程执行，也可以作为Future得到Callable的返回值；</li>
+</ul>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>线程池存在的目的在于：提前创建好需要的线程，减少临时创建线程带来的资源消耗。而且每个ThreadPoolExecutor线程池还维护者一些统计数据，如完成的任务数，可以方便的进行统计，同时该类还提供了很多可调整的参数和扩展的钩子（hook）。</p>
+<ul>
+<li>Executor是顶层接口，其中只有一个execute(Runnable)的声明，返回值是void；</li>
+<li>ExecutorService接口集成了Executor接口，同时提供了submit、invokeAll、invokeAny、shutDown等方法；</li>
+<li>AbstractExecutorService实现了ExecutorService接口，并基本实现其所有方法；</li>
+<li>ThreadPoolExecutor继承了类AbstractExecutorService；并提供了execute()/submit()/shutdown()/shudownNow()等方法的具体实现（execute是提供了具体实现，其它方法用了超类的实现）；</li>
+</ul>
+<h3 id="Java中的ThreadPoolExecutor类"><a href="#Java中的ThreadPoolExecutor类" class="headerlink" title="Java中的ThreadPoolExecutor类"></a>Java中的ThreadPoolExecutor类</h3><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadPoolExecutor</span> <span class="keyword">extends</span> <span class="title">AbstractExecutorService</span> </span>&#123;</span><br><span class="line">    .....</span><br><span class="line">    <span class="keyword">public</span> ThreadPoolExecutor(<span class="keyword">int</span> corePoolSize,<span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime,TimeUnit unit,</span><br><span class="line">            BlockingQueue&lt;Runnable&gt; workQueue);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> ThreadPoolExecutor(<span class="keyword">int</span> corePoolSize,<span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime,TimeUnit unit,</span><br><span class="line">            BlockingQueue&lt;Runnable&gt; workQueue,ThreadFactory threadFactory);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> ThreadPoolExecutor(<span class="keyword">int</span> corePoolSize,<span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime,TimeUnit unit,</span><br><span class="line">            BlockingQueue&lt;Runnable&gt; workQueue,RejectedExecutionHandler <span class="keyword">handler</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> ThreadPoolExecutor(<span class="keyword">int</span> corePoolSize,<span class="keyword">int</span> maximumPoolSize,<span class="keyword">long</span> keepAliveTime,TimeUnit unit,</span><br><span class="line">        BlockingQueue&lt;Runnable&gt; workQueue,ThreadFactory threadFactory,RejectedExecutionHandler <span class="keyword">handler</span>);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>corePoolSize：核心池的大小，这个参数跟后面讲述的线程池的实现原理有非常大的关系。在创建了线程池后，默认情况下，线程池中并没有任何线程，而是等待有任务到来才创建线程去执行任务，除非调用了prestartAllCoreThreads()或者prestartCoreThread()方法，从这2个方法的名字就可以看出，是预创建线程的意思，即在没有任务到来之前就创建corePoolSize个线程或者一个线程。默认情况下，在创建了线程池后，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中；</li>
+<li>maximumPoolSize：线程池最大线程数，这个参数也是一个非常重要的参数，它表示在线程池中最多能创建多少个线程；</li>
+<li>keepAliveTime：表示线程没有任务执行时最多保持多久时间会终止。默认情况下，只有当线程池中的线程数大于corePoolSize时，keepAliveTime才会起作用，直到线程池中的线程数不大于corePoolSize，即当线程池中的线程数大于corePoolSize时，如果一个线程空闲的时间达到keepAliveTime，则会终止，直到线程池中的线程数不超过corePoolSize。但是如果调用了allowCoreThreadTimeOut(boolean)方法，在线程池中的线程数不大于corePoolSize时，keepAliveTime参数也会起作用，直到线程池中的线程数为0；</li>
+<li>unit：参数keepAliveTime的时间单位</li>
+<li>workQueue：一个阻塞队列，用来存储等待执行的任务，这个参数的选择也很重要，会对线程池的运行过程产生重大影响，一般来说，这里的阻塞队列有以下几种选择：ArrayBlockingQueue;<br>LinkedBlockingQueue;SynchronousQueue;</li>
+<li>threadFactory：线程工厂，主要用来创建线程；</li>
+<li>handler：表示当拒绝处理任务时的策略，有以下四种取值<ul>
+<li>ThreadPoolExecutor.AbortPolicy丢弃任务并抛RejectedExecutionException异常。 </li>
+<li>ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。 </li>
+<li>ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</li>
+<li>ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务 </li>
+</ul>
+</li>
+</ul>
+<h3 id="注：execute和submit的区别在于："><a href="#注：execute和submit的区别在于：" class="headerlink" title="注：execute和submit的区别在于："></a>注：execute和submit的区别在于：</h3><ul>
+<li>execute是定义在Executor中，并在ThreadPoolExecutor中具体实现，没有返回值的，其作用就是向线程池提交一个任务并执行；</li>
+<li>submit是定义在ExecutorService中，并在AbstractExecutorService中具体实现，且在ThreadPoolExecutor中没有对其进行重写，submit能够返回结果，其内部实现，其实还是在调用execute()，不过，它利用Future&amp;FutureTask来获取任务结果。</li>
+</ul>
+<h4 id="线程池的关闭"><a href="#线程池的关闭" class="headerlink" title="线程池的关闭"></a>线程池的关闭</h4><ul>
+<li>shutdown()方法在终止前允许执行以前提交的任务；</li>
+<li>shutdownNow() 方法阻止等待任务的启动并试图停止当前正在执行的任务。在终止后，执行程序没有任务在执行，也没有任务在等待执行，并且无法提交新任务。应该关闭未使用的 ExecutorService以允许回收其资源；</li>
+</ul>
+<h3 id="线程池的状态"><a href="#线程池的状态" class="headerlink" title="线程池的状态"></a>线程池的状态</h3><ul>
+<li>volatile int runState;</li>
+<li>static final int RUNNING    = 0;创建线程池后，初始时，线程池处于RUNNING状态；</li>
+<li>static final int SHUTDOWN   = 1;　如果调用了shutdown()方法，则线程池处于SHUTDOWN状态，此时线程池不能够接受新的任务，它会等待所有任务执行完毕；</li>
+<li>static final int STOP       = 2;如果调用了shutdownNow()方法，则线程池处于STOP状态，此时线程池不能接受新的任务，并且会去尝试终止正在执行的任务；</li>
+<li>static final int TERMINATED = 3;　当线程池处于SHUTDOWN或STOP状态，并且所有工作线程已经销毁，任务缓存队列已经清空或执行结束后，线程池被设置为TERMINATED状态。</li>
+</ul>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a class="article-share-link" data-url="http://chilam.me/2016/07/06/jmm-4-thread/" data-id="cjj456z4n003yaodaqntly1b3" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAAByElEQVR42u3aQW7DMAwEwPz/0y7QU4vAzlKUZAcYnYrGliY5ECTF1ytex+86+//fT9+fPN7W9Z4TFi4ubpt7XK5r1tnxZ/sku12/i4uLu5N7HbyqASsJhUlQw8XFfT537JhqEMTFxf1Gbl4a5cUPLi7uM7lJ8ZMckzdBltdquLi4DW61Ybri74X9XVxc3CL3KK68vBlLfT6cjouLu4U79xI0T02SnQsZGS4u7jJuf5yikyq1si1cXNyp3BUXpZ0RjSi5wcXFXcxNUpzOEFU1CEYhEhcXdzF3LJBVxzo7DZF/++Di4m7h5i8n3LGvV26d4OLibuH2rz3m7hDtiYuLu4ybFyFjoa1aShXufHBxcZdx57ZNx9KX/Kvi4uLu50aPFi9Nx1KiQn8XFxd3Abfa5qiOTVSvYT5cxuDi4t7EHRvASg7Ly5vy4AUuLu5Ubn8UI0lWXkMrQuPi4i7gHsWVhKekgTL40+Di4m7hVsNKNS7mjdfJoRAXF7fN7QxGVJut1bQJFxf3Xu7YNUn+VjWC4uLifgu3X6JMaLjg4uI+kjt2KdJ5BhcX9y5utfjJg1TyaSElwsXF3cIda5gmT1YHNGcVTri4uA3uD83Hw0J3U5mFAAAAAElFTkSuQmCC">Aktie</a><div class="tags"><a href="/tags/jmm/">jmm</a></div><div class="post-nav"><a class="pre" href="/2017/02/15/java-tool/">JDK内置工具</a><a class="next" href="/2016/07/06/git-1/">1.git-github issue</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+  owner: 'CasperMXP',
+  repo: 'CasperMXP.github.io',
+  oauth: {
+    client_id: '2cf162fa015e397bb3c9',
+    client_secret: '9c97449f4ec96ac4a1064e819e92fde840e66ec7',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1 pure-u-md-1-4"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1房2人3餐4季/">1房2人3餐4季</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搬砖/">搬砖</a><span class="category-list-count">64</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/Hystrix/" style="font-size: 15px;">Hystrix</a> <a href="/tags/idea/" style="font-size: 15px;">idea</a> <a href="/tags/test/" style="font-size: 15px;">test</a> <a href="/tags/jmm/" style="font-size: 15px;">jmm</a> <a href="/tags/jvm/" style="font-size: 15px;">jvm</a> <a href="/tags/spring-boot/" style="font-size: 15px;">spring-boot</a> <a href="/tags/links/" style="font-size: 15px;">links</a> <a href="/tags/design-pattern/" style="font-size: 15px;">design-pattern</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/logback/" style="font-size: 15px;">logback</a> <a href="/tags/markdown/" style="font-size: 15px;">markdown</a> <a href="/tags/maths/" style="font-size: 15px;">maths</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/sublime/" style="font-size: 15px;">sublime</a> <a href="/tags/javaee/" style="font-size: 15px;">javaee</a> <a href="/tags/win10/" style="font-size: 15px;">win10</a> <a href="/tags/weblogic/" style="font-size: 15px;">weblogic</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/06/26/mysql-2/">3.mysql-sql</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/20/mysql-1/">1.mysql-install</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/links/">1.收藏的一些链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/16/life-dinner-noodle/">黑胡椒意面</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-8/">8.sb-原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-7/">7.sb-jdbcTemplate</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-6/">6.sb-DevTools</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-5/">5.sb-Swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-4/">4.sb-日志</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-3/">3.sb-web开发</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">CHILAM.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" color="100,99,98" opacity="0.7" zIndex="-1" count="30" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
