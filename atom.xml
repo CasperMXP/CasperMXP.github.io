@@ -193,24 +193,24 @@
   </entry>
   
   <entry>
-    <title>1.jvm-jdk</title>
-    <link href="http://chilam.me/2018/06/17/jvm-1/"/>
-    <id>http://chilam.me/2018/06/17/jvm-1/</id>
+    <title>1.收藏的一些链接</title>
+    <link href="http://chilam.me/2018/06/17/links/"/>
+    <id>http://chilam.me/2018/06/17/links/</id>
     <published>2018-06-17T06:28:01.000Z</published>
-    <updated>2018-06-30T10:05:00.248Z</updated>
+    <updated>2018-07-02T01:37:49.658Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="一些链接"><a href="#一些链接" class="headerlink" title="一些链接"></a>一些链接</h2><ul><li><a href="http://www.oracle.com/technetwork/java/javase/archive-139210.html" target="_blank" rel="noopener">Java所有版本</a></li><li><a href="http://hllvm.group.iteye.com/" target="_blank" rel="noopener">高级语言虚拟机圈子</a></li><li><a href="http://icyfenix.iteye.com/" target="_blank" rel="noopener">深入理解JVM作者博客</a></li><li><a href="https://docs.oracle.com/javase/10/" target="_blank" rel="noopener">JDK各个版本文档</a></li><li><a href="https://docs.oracle.com/javase/7/docs/index.html" target="_blank" rel="noopener">JDK7文档</a></li><li><a href="https://docs.oracle.com/javase/8/docs/index.html" target="_blank" rel="noopener">JDK8文档</a></li><li><a href="https://docs.oracle.com/javase/specs/index.html" target="_blank" rel="noopener">所有版本java语言和虚拟机规范</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<h2 id="java"><a href="#java" class="headerlink" title="java"></a>java</h2><ul><li><a href="http://www.oracle.com/technetwork/java/javase/archive-139210.html" target="_blank" rel="noopener">Java所有版本</a></li><li><a href="http://hllvm.group.iteye.com/" target="_blank" rel="noopener">高级语言虚拟机圈子</a></li><li><a href="http://icyfenix.iteye.com/" target="_blank" rel="noopener">深入理解JVM作者博客</a></li><li><a href="https://docs.oracle.com/javase/10/" target="_blank" rel="noopener">JDK各个版本文档</a></li><li><a href="https://docs.oracle.com/javase/7/docs/index.html" target="_blank" rel="noopener">JDK7文档</a></li><li><a href="https://docs.oracle.com/javase/8/docs/index.html" target="_blank" rel="noopener">JDK8文档</a></li><li><a href="https://docs.oracle.com/javase/specs/index.html" target="_blank" rel="noopener">所有版本java语言和虚拟机规范</a></li><li><a href="https://docs.oracle.com/javase/tutorial/tutorialLearningPaths.html" target="_blank" rel="noopener">java官方学习文档</a></li></ul><h2 id="优秀博客"><a href="#优秀博客" class="headerlink" title="优秀博客"></a>优秀博客</h2><ul><li><a href="https://www.jianshu.com/u/581f548ef0ec" target="_blank" rel="noopener">李艳鹏-分布式服务相关</a></li><li><a href="http://ginobefunny.com/" target="_blank" rel="noopener">JVM相关</a></li><li><a href="https://www.jianshu.com/nb/13314305" target="_blank" rel="noopener">Java工程师系列</a></li><li><a href="http://www.cnblogs.com/ysocean/" target="_blank" rel="noopener">Java基础</a></li><li><a href="http://www.coolblog.xyz/" target="_blank" rel="noopener">比较多的源码分析-spring,jdk</a></li><li><a href="https://www.jianshu.com/p/bbd4cb15bc5f" target="_blank" rel="noopener">idea的使用文档</a></li><li><a href="https://www.cnblogs.com/oldtrafford/p/6883796.html" target="_blank" rel="noopener">G1垃圾收集</a></li></ul><h2 id="个人"><a href="#个人" class="headerlink" title="个人"></a>个人</h2><ul><li><a href="https://leetcode.com/" target="_blank" rel="noopener">LeetCode</a></li><li><a href="https://www.processon.com/diagrams" target="_blank" rel="noopener">在线画图工具</a></li><li><a href="http://jiantuku.com/#/albums/60563?scope=public" target="_blank" rel="noopener">图片存储</a></li></ul>]]></content>
     
     <summary type="html">
     
-      关于java的下载连接和博客
+      一些链接，随时会更新
     
     </summary>
     
       <category term="搬砖" scheme="http://chilam.me/categories/%E6%90%AC%E7%A0%96/"/>
     
     
-      <category term="jvm" scheme="http://chilam.me/tags/jvm/"/>
+      <category term="links" scheme="http://chilam.me/tags/links/"/>
     
   </entry>
   
