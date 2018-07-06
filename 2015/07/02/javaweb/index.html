@@ -1,0 +1,140 @@
+<!DOCTYPE html><html><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="java"><title>1.javaweb基础知识 | CHILAM</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">1.javaweb基础知识</h1><a id="logo" href="/.">CHILAM</a><p class="description">多读书，多看报，少吃零食，多睡觉</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">1.javaweb基础知识</h1><div class="post-meta">Jul 2, 2015<span> | </span><span class="category"><a href="/categories/搬砖/">搬砖</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span><span class="post-time"><span class="post-meta-item-text"> | </span><span class="post-meta-item-icon"><i class="fa fa-keyboard-o"></i><span class="post-count"> 2,550</span><span class="post-meta-item-text"> Words</span></span></span><span class="post-time"> | <span class="post-meta-item-icon"><i class="fa fa-hourglass-half"></i><span class="post-count"> 10</span><span class="post-meta-item-text"> Minutes</span></span></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">Inhalte</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Servlet是什么？JSP是什么？它们的联系与区别是什么？"><span class="toc-number">1.</span> <span class="toc-text">Servlet是什么？JSP是什么？它们的联系与区别是什么？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#联系和区别："><span class="toc-number">1.1.</span> <span class="toc-text">联系和区别：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Servlet-API"><span class="toc-number">2.</span> <span class="toc-text">Servlet API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用Servlet"><span class="toc-number">3.</span> <span class="toc-text">如何使用Servlet</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Servlet的生命周期"><span class="toc-number">4.</span> <span class="toc-text">Servlet的生命周期</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ServletContextListener监视器"><span class="toc-number">5.</span> <span class="toc-text">ServletContextListener监视器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#请求转发与重定向特点以及它们的区别"><span class="toc-number">6.</span> <span class="toc-text">请求转发与重定向特点以及它们的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#请求转发：HttpServletRequest-getRequestDispatcher-String-path-forward-request-response"><span class="toc-number">6.1.</span> <span class="toc-text">请求转发：HttpServletRequest.getRequestDispatcher(String path).forward(request, response);</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#重定向：HttpServletResponse-sendRedirect-String-path"><span class="toc-number">6.2.</span> <span class="toc-text">重定向：HttpServletResponse.sendRedirect(String path);</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#区别汇总："><span class="toc-number">6.3.</span> <span class="toc-text">区别汇总：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意：请求转发与重定向的资源路径表示是有区别的"><span class="toc-number">6.4.</span> <span class="toc-text">注意：请求转发与重定向的资源路径表示是有区别的</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何保证Servlet的线程安全"><span class="toc-number">7.</span> <span class="toc-text">如何保证Servlet的线程安全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JSP九大内置对象"><span class="toc-number">8.</span> <span class="toc-text">JSP九大内置对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Session和Cookie"><span class="toc-number">9.</span> <span class="toc-text">Session和Cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie与Session的区别"><span class="toc-number">9.1.</span> <span class="toc-text">Cookie与Session的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Cookie机制"><span class="toc-number">9.2.</span> <span class="toc-text">Cookie机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Cookie的常见属性"><span class="toc-number">9.2.1.</span> <span class="toc-text">Cookie的常见属性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Cookie使用"><span class="toc-number">9.2.2.</span> <span class="toc-text">Cookie使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Session会话机制"><span class="toc-number">9.3.</span> <span class="toc-text">Session会话机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Session的使用"><span class="toc-number">9.3.1.</span> <span class="toc-text">Session的使用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Session持久化"><span class="toc-number">9.3.2.</span> <span class="toc-text">Session持久化</span></a></li></ol></li></ol></li></ol></div></div><div class="post-content"><h2 id="Servlet是什么？JSP是什么？它们的联系与区别是什么？"><a href="#Servlet是什么？JSP是什么？它们的联系与区别是什么？" class="headerlink" title="Servlet是什么？JSP是什么？它们的联系与区别是什么？"></a>Servlet是什么？JSP是什么？它们的联系与区别是什么？</h2><ul>
+<li>Servlet是Java编写的运行在Servlet容器的服务端程序，狭义的Servlet是指Servlet接口，广义的Servlet是指任何实现Servlet接口的类，我们一般理解的为后者。Servlet的作用是接收浏览器发给服务器的请求Request，经过处理后，将返回响应Response给浏览器。</li>
+<li>JSP是一种后端脚本语言，是为了解决Html是静态的，而Servlet输出动态页面又太复杂的问题而出现的，通过JSP标签、动作、内置对象提供方便的生成动态网页功能，是一种后端渲染技术。</li>
+</ul>
+<h3 id="联系和区别："><a href="#联系和区别：" class="headerlink" title="联系和区别："></a>联系和区别：</h3><ol>
+<li>JSP其实就是基于Servlet实现的，JSP生命周期：<ul>
+<li>解析阶段：Servlet容器解析JSP代码，如果有错则报错；</li>
+<li>翻译阶段：Servlet容器翻译JSP代码为Servlet源文件；</li>
+<li>编译阶段：Servlet容器编译Servlet源代码，生成Servlet字节码类文件；</li>
+<li>……剩下就是Servlet的生命周期，会在下面介绍。</li>
+</ul>
+</li>
+<li>JSP注重视图显示、Servlet注重控制，在传统的MVC架构中，JSP是View，Servlet是Controller。</li>
+<li>JSP在修改静态内容时不需要重新编译。</li>
+</ol>
+<h2 id="Servlet-API"><a href="#Servlet-API" class="headerlink" title="Servlet API"></a>Servlet API</h2><ul>
+<li>javax.servlet.Servlet：Servlet核心接口，定义了init()、service()、destroy()有关Servlet 生命周期的方法。</li>
+<li>javax.servlet.ServletConfig：Servlet配置接口，定义了getServletContext()，主要用于获取ServletContext实例。</li>
+<li>javax.servlet.ServletContex：Servlet上下文接口，相当于Web应用的总管家。定义了getAtrribute(String name)、setAttribute(String name, Object object)、getInitParameter(String name)、getContextPath()、getRequestDispatcher(String path)等方法，主要用于应用间通信，获取web应用资源、访问服务器文件资源、输出日志等功能。</li>
+<li>javax.servlet.GenericServlet：该包下唯一抽象类，实现了ServletConfig、Servlet接口，为两个接口方法提供默认的实现方式。</li>
+</ul>
+<h2 id="如何使用Servlet"><a href="#如何使用Servlet" class="headerlink" title="如何使用Servlet"></a>如何使用Servlet</h2><ol>
+<li><p>继承GenericServlet类（通用）</p>
+<ul>
+<li>GenericServlet类有一个关键的设计，定义了一个私有的ServletConfig成员变量，在init()方法中，由Servlet容器传入ServletConfig对象与之匹配。</li>
+<li>GenericServlet类中唯一一个抽象方法是Service方法，子类必须实现Service方法，以为用户提供特定的服务。</li>
+</ul>
+</li>
+<li><p>继承HttpServlet类，是GenericServlet的子类，重写了Service方法，提供了HTTP的相关服务实现。用户需要做的事，根据实际情况，重写doPost()、doGet()等方法。</p>
+</li>
+</ol>
+<h2 id="Servlet的生命周期"><a href="#Servlet的生命周期" class="headerlink" title="Servlet的生命周期"></a>Servlet的生命周期</h2><ol>
+<li>初始化阶段<ul>
+<li>将编译后的servlet字节码文件读入内存</li>
+<li>Servlet容器创建ServletConfig，并与ServletContext对象建立关联关系，即调用ServletConfig的getServletContext()方法会获取到ServletContext对象。</li>
+<li>创建Servlet对象。</li>
+<li>调用GenericServlet的init(ServletConfig config)方法，建立Servlet对象与ServletConfig对象的关联</li>
+<li>初始化时机<ul>
+<li>未配置<load-on-startup>属性的Servlet被客户端首次访问时才会被初始化。</load-on-startup></li>
+<li>配置<load-on-startup>属性的Servlet在web容器启动时就会按配置的数值按顺序被初始化。</load-on-startup></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>运行阶段<ul>
+<li>调用Servlet类的Service()方法。当Servlet将响应返回后，Servlet容器会销毁HttpServletRequest对象与HttpServletResponse对象。</li>
+</ul>
+</li>
+<li>销毁阶段 <ul>
+<li>在web容器终止时，会先调用所有Servlet的destroy()方法。</li>
+</ul>
+</li>
+</ol>
+<h2 id="ServletContextListener监视器"><a href="#ServletContextListener监视器" class="headerlink" title="ServletContextListener监视器"></a>ServletContextListener监视器</h2><p>通过实现ServletContextListener接口，实现contextInitialized(ServletContextEvent sce)与contextDestroyed(ServletContextEvent sce)方法，其中可以通过参数的getServletCotext()方法获取ServletContext对象以完成监听工作。</p>
+<p>注意：Servlet、Listener、Filter三者的加载顺序为：Listener&gt;Filter&gt;Servlet</p>
+<h2 id="请求转发与重定向特点以及它们的区别"><a href="#请求转发与重定向特点以及它们的区别" class="headerlink" title="请求转发与重定向特点以及它们的区别"></a>请求转发与重定向特点以及它们的区别</h2><h3 id="请求转发：HttpServletRequest-getRequestDispatcher-String-path-forward-request-response"><a href="#请求转发：HttpServletRequest-getRequestDispatcher-String-path-forward-request-response" class="headerlink" title="请求转发：HttpServletRequest.getRequestDispatcher(String path).forward(request, response);"></a>请求转发：HttpServletRequest.getRequestDispatcher(String path).forward(request, response);</h3><ul>
+<li>服务器内部转发，浏览器URL不会改变，对用户透明。整体体现的是一个请求与一个响应。</li>
+<li>请求转发前，会清空响应缓冲区。</li>
+<li>如果转发的为Servlet或JSP（JSP也是Servlet），就会直接将当前HttpServletRequest对象与HttpServletResponse对象转交给目标Servlet或JSP的Service方法，处理后将响应结果返回给前端。</li>
+<li>如果转发的为Html静态文档，则就读取文档中数据发送到前端。</li>
+<li>请求转发不会执行转发方法之后的代码</li>
+</ul>
+<h3 id="重定向：HttpServletResponse-sendRedirect-String-path"><a href="#重定向：HttpServletResponse-sendRedirect-String-path" class="headerlink" title="重定向：HttpServletResponse.sendRedirect(String path);"></a>重定向：HttpServletResponse.sendRedirect(String path);</h3><ul>
+<li>客户端外部转发，浏览器URL会发生改变。在Servlet调用重定向后，会返回302临时重定向状态码，响应内容为待重定向路径。然后，浏览器就会再次发出请求，请求路径为刚刚相应内容中的路径。整体体现的是两个请求与两个响应。</li>
+<li>重定向前，也会清空响应缓冲区。</li>
+<li>而重定向会执行重定向方法后的代码</li>
+</ul>
+<h3 id="区别汇总："><a href="#区别汇总：" class="headerlink" title="区别汇总："></a>区别汇总：</h3><ul>
+<li>请求转发在服务端完成，重定向在客户端完成。</li>
+<li>请求转发速度快，重定向速度慢。</li>
+<li>请求转发是一次请求，一次响应；而重定向是两次请求，两次响应。</li>
+<li>请求转发不会执行转发方法之后的代码；而重定向会执行重定向方法后的代码。</li>
+<li>请求转发URL不会发生改变；而重定向URL会发生改变</li>
+<li>请求转发必须在同一台服务器下完成；而重定向可以在不同服务器下完成</li>
+</ul>
+<h3 id="注意：请求转发与重定向的资源路径表示是有区别的"><a href="#注意：请求转发与重定向的资源路径表示是有区别的" class="headerlink" title="注意：请求转发与重定向的资源路径表示是有区别的"></a>注意：请求转发与重定向的资源路径表示是有区别的</h3><ul>
+<li>请求转发的path一般使用”/资源名”，这里的 ‘/‘ 就代表了项目根路径 “<a href="http://localhost:8080/项目名/&quot;；" target="_blank" rel="noopener">http://localhost:8080/项目名/&quot;；</a></li>
+<li>而重定向的path一般使用context.getContextPath() + “/资源名”，不能直接使用”/资源名”，因为在重定向中”/“代表了Web站点的根路径”<a href="http://localhost:8080&quot;。" target="_blank" rel="noopener">http://localhost:8080&quot;。</a></li>
+</ul>
+<h2 id="如何保证Servlet的线程安全"><a href="#如何保证Servlet的线程安全" class="headerlink" title="如何保证Servlet的线程安全"></a>如何保证Servlet的线程安全</h2><ul>
+<li>保证变量作用域合理，线程私有的变量要定义在方法中。</li>
+<li>共享变量要用保证线程安全，可以使用加锁、atomic类、volatile关键字实现。</li>
+</ul>
+<h2 id="JSP九大内置对象"><a href="#JSP九大内置对象" class="headerlink" title="JSP九大内置对象"></a>JSP九大内置对象</h2><ol>
+<li>request对象——代表javax.servlet.http.HttpServletRequest对象</li>
+<li>response对象——代表javax.servlet.http.HttpServletResponse对象</li>
+<li>session对象——代表javax.servlet.http.HttpSession对象</li>
+<li>application对象——代表javax.servlet.ServletContext对象</li>
+<li>pageContext对象——代表javax.servlet.jsp.pageContext对象</li>
+<li>page对象——代表this</li>
+<li>config对象——代表javax.servlet.ServletConfig对象</li>
+<li>out对象——代表javax.servlet.jsp.jspWriter对象</li>
+<li>exception对象——代表java.lang.Exception对象</li>
+</ol>
+<p><a href="https://blog.csdn.net/zhangliangzi/article/details/49965209" target="_blank" rel="noopener">详细的参考信息</a></p>
+<h2 id="Session和Cookie"><a href="#Session和Cookie" class="headerlink" title="Session和Cookie"></a>Session和Cookie</h2><p>Web应用一般使用HTTP协议传输数据，HTTP是一种无状态协议，完成数据交换后客户端与服务端的连接就会关闭。所以服务端无法根据HTTP请求区分请求者。但区分请求者身份是是非常有意义的。</p>
+<h3 id="Cookie与Session的区别"><a href="#Cookie与Session的区别" class="headerlink" title="Cookie与Session的区别"></a>Cookie与Session的区别</h3><ul>
+<li>Cookie存在于客户端，Session存在于服务端。</li>
+<li>Cookie的存储数量是有限制的，安全性也更差。</li>
+<li>Session是基于Cookie实现的，但服务端为了获得较高的存取速度，会把Session放到内存中，在高并发环境下会增大服务器压力。</li>
+</ul>
+<h3 id="Cookie机制"><a href="#Cookie机制" class="headerlink" title="Cookie机制"></a>Cookie机制</h3><p>Cookie基于浏览器的支持，具有“不可跨域名性”，浏览器只能访问当前域名网站的Cookie。</p>
+<h4 id="Cookie的常见属性"><a href="#Cookie的常见属性" class="headerlink" title="Cookie的常见属性"></a>Cookie的常见属性</h4><ul>
+<li>String name——Cookie的名称，一旦创建便不能更改；</li>
+<li>Object value——Cookie的值；</li>
+<li>int maxAge——Cookie失效时间，单位为秒；</li>
+<li>boolean secure——Cookie是否使用HTTPS或SSL的安全数据，传输前要加密，默认为false</li>
+<li>String domain——Cookie的作用域名，比如设置为”.google.com”，第一个字符必须为点，代表着以google.com为结尾的域名才可以访问该Cookie。</li>
+<li>String path——Cookie的作用项目名，比如设置为”/webApp/“，最后一个字符必须为斜线，代表着contextPath为”/webApp”的程序才可以访问该Cookie。</li>
+</ul>
+<h4 id="Cookie使用"><a href="#Cookie使用" class="headerlink" title="Cookie使用"></a>Cookie使用</h4><figure class="highlight pony"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Cookie</span> cookie = <span class="function"><span class="keyword">new</span> <span class="title">Cookie</span>("name","<span class="type">StringValue</span>"); <span class="comment">// 新建Cookie</span></span></span><br><span class="line"><span class="function"><span class="title">Cookie</span>[] <span class="title">cookies</span> = <span class="title">request</span>.<span class="title">getCookie</span>(); <span class="comment">//获取客户端提交的所有cookie</span></span></span><br><span class="line"><span class="function"><span class="title">cookie</span>.<span class="title">setDomain</span>(".leeon.top"); <span class="comment">//设置作用域名</span></span></span><br><span class="line"><span class="function"><span class="title">cookie</span>.<span class="title">setPath</span>("/testApp/"); <span class="comment">//设置作用项目路径</span></span></span><br><span class="line"><span class="function"><span class="title">cookie</span>.<span class="title">setSecure</span>(true); <span class="comment">//设置安全属性</span></span></span><br><span class="line"><span class="function"><span class="title">cookie</span>.<span class="title">setMaxAge</span>(<span class="type">Integer</span>.<span class="type">MAX_VALUE</span>); <span class="comment">// 设置生命周期为永久；</span></span></span><br><span class="line"><span class="function"><span class="title">response</span>.<span class="title">addCookie</span>(cookie); <span class="comment">// 输出到客户端</span></span></span><br></pre></td></tr></table></figure>
+<p>Coookie不能修改与删除，修改可通过创建同名Cookie后覆盖原Coolkie；删除可通过设置setMaxAge方法中的参数为0。</p>
+<p>setMaxAge方法中的参如果设置为负值，则为存放在内存中的临时Cookie，关闭浏览器即失效；如果设置为0，则代表使Cookie。</p>
+<h3 id="Session会话机制"><a href="#Session会话机制" class="headerlink" title="Session会话机制"></a>Session会话机制</h3><ul>
+<li>当用户通过浏览器进程第一次请求一个支持会话的资源时，Servlet容器会为这个会话创建一个HttpSession对象，并为其分配一个唯一的ID，当前会话就此开始。</li>
+<li>把这个唯一的ID以name为JSESSIONID的Cookie形式添加到响应中，返回给客户端保存。（当Cookie被禁用时，使用URL重写机制，在URL后添加;jsessionid=XXX以传输HttpSession对象标识）</li>
+<li>当浏览器进程再次请求这个支持会话的资源时，会在请求头中加上一直保持着的JSESSIONID，Servlet容器会在HTTP请求头中自动查找这个Cookie（也可以通过HttpSession.getId()方法主动获取），如果找到，就取出对应HttpSession对象（其实用户第一次访问，也会进行相同的查询，因为查询不到，才会执行创建操作）。</li>
+</ul>
+<h4 id="Session的使用"><a href="#Session的使用" class="headerlink" title="Session的使用"></a>Session的使用</h4><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HttpSession session = request.getSession(); <span class="comment">//获取Session对象</span></span><br><span class="line">session.setAtrribute(<span class="string">"name"</span>, <span class="string">"StringValue"</span>);<span class="comment">//加入session</span></span><br><span class="line">session.getAttribute(<span class="string">"name"</span>);<span class="comment">//获取session</span></span><br><span class="line">session.removeAtrribute(<span class="string">"name"</span>);<span class="comment">//删除session</span></span><br><span class="line">session.setMaxInactiveInterval(<span class="built_in">int</span> <span class="built_in">second</span>);<span class="comment">//设置超时时间，单位为秒，默认20分钟</span></span><br><span class="line">session.getLastAccessedTime();<span class="comment">//返回Session的最后活跃时间</span></span><br></pre></td></tr></table></figure>
+<h4 id="Session持久化"><a href="#Session持久化" class="headerlink" title="Session持久化"></a>Session持久化</h4><ul>
+<li>StandarManager是默认的Session Manager（用来管理Session）。它的实现机制是：当Tomcat服务器关闭或重启，或Web应用被重新加载时，会将内存中所有的HttpSession对象保存到文件系统中，默认的文件路径是：%CATALINA_HOME%\work\Catalina\<applicaton-name>\SESSIONS.ser</applicaton-name></li>
+<li>PersistentManager能够把HttpSession对象保存到Session Store中，它提供了比较StandarManager更灵活的管理功能，具有容错能力，控制内存中HttpSession对象的数目等。<br>重启Tomcat后，Tomcat服务器把SESSIONS.ser中的持久化HttpSession对象加载到内存中。</li>
+<li>Tomcat实现Session Store的接口为org.apache.catalina.session.Store，目前提供了两个实现这一接口的类：org.apache.catalina.session.FileStore和org.apache.catalina.session.JDBCStore。FileStore会将HttpSession对象保存到文件系统中；而JDBCStore则将HttpSession对象保存到数据库表中。</li>
+</ul>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a class="article-share-link" data-url="http://chilam.me/2015/07/02/javaweb/" data-id="cjj9w1ktv00503kdaa39f20xi" data-qrcode="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAAAAACKZ2kyAAABwklEQVR42u3aS24CMRAFQO5/abJFQpm85x47JCqv0DDCZRat/vjxiNfzZb0/eX+evPP65OaFi4s75j4v13yD68PkBlxc3PPcfJu1kLf2+7i4uH+Fm79//SYuLu5/4rYJSpIw4eLifiY32SDnJqFte62Gi4s74N7b2lj7vKW/i4uLu8R9lus6qLWBqd4dFxf3CDcPKHkB0yZG7b64uLi7uZOBx/Vm829/+F9xcXG3cdvxxuRCRtskLXo5uLi4t3KTc+QHSEqj0aAFFxf3CLdNLK6PdNdhkl/GxcXdzV1sXMY5VJ7cRCUWLi7uQW7RkijLobWLGlF/FxcXdzM3GX/m0GL7IN3BxcX9LW4+6sgvWOSBL0+PcHFxz3AnVy7WUp92APPIX8XFxb2Jm7c7o85rGf7avwwXF/cktx2s5he57hq74uLinufmrZD5SHWUheHi4m7mzserd6UvdeMDFxd3G3dStLTXLNpEalJi4eLizrlt+bH2ORnlRofBxcU9yE0aHHliNImg9UwYFxf3A7iTlKUtvYquCS4u7sdwN7Y2vhPi4uIe5K5dnZw3SjbWari4uANuG0ragmcythn1d3FxcVe4X5zYmnm/TXKHAAAAAElFTkSuQmCC">Aktie</a><div class="tags"><a href="/tags/javaweb/">javaweb</a></div><div class="post-nav"><a class="pre" href="/2015/10/17/crazy-java-1-exception/">1.《疯狂Java讲义第三版》读书笔记-消失的异常</a><a class="next" href="/2015/06/30/sublime/">sublime的使用</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=0.0.0"><script src="/js/gitment.browser.js?v=0.0.0"></script><script>var gitment = new Gitment({
+  owner: 'CasperMXP',
+  repo: 'CasperMXP.github.io',
+  oauth: {
+    client_id: '2cf162fa015e397bb3c9',
+    client_secret: '9c97449f4ec96ac4a1064e819e92fde840e66ec7',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1 pure-u-md-1-4"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/1房2人3餐4季/">1房2人3餐4季</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/搬砖/">搬砖</a><span class="category-list-count">83</span></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/links/" style="font-size: 15px;">links</a> <a href="/tags/cache/" style="font-size: 15px;">cache</a> <a href="/tags/design-pattern/" style="font-size: 15px;">design-pattern</a> <a href="/tags/docker/" style="font-size: 15px;">docker</a> <a href="/tags/git/" style="font-size: 15px;">git</a> <a href="/tags/hexo/" style="font-size: 15px;">hexo</a> <a href="/tags/hibernate/" style="font-size: 15px;">hibernate</a> <a href="/tags/Hystrix/" style="font-size: 15px;">Hystrix</a> <a href="/tags/idea/" style="font-size: 15px;">idea</a> <a href="/tags/spring/" style="font-size: 15px;">spring</a> <a href="/tags/test/" style="font-size: 15px;">test</a> <a href="/tags/javaweb/" style="font-size: 15px;">javaweb</a> <a href="/tags/jmm/" style="font-size: 15px;">jmm</a> <a href="/tags/jvm/" style="font-size: 15px;">jvm</a> <a href="/tags/life/" style="font-size: 15px;">life</a> <a href="/tags/java/" style="font-size: 15px;">java</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/logback/" style="font-size: 15px;">logback</a> <a href="/tags/markdown/" style="font-size: 15px;">markdown</a> <a href="/tags/maths/" style="font-size: 15px;">maths</a> <a href="/tags/maven/" style="font-size: 15px;">maven</a> <a href="/tags/mysql/" style="font-size: 15px;">mysql</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/node/" style="font-size: 15px;">node</a> <a href="/tags/spring-boot/" style="font-size: 15px;">spring-boot</a> <a href="/tags/sublime/" style="font-size: 15px;">sublime</a> <a href="/tags/javaee/" style="font-size: 15px;">javaee</a> <a href="/tags/weblogic/" style="font-size: 15px;">weblogic</a> <a href="/tags/win10/" style="font-size: 15px;">win10</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/07/02/poem-3/">傲红尘</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/17/links/">1.收藏的一些链接</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/16/life-dinner-noodle/">黑胡椒意面</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/06/14/interview-1/">1.面试准备-Java基础</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/01/04/docker/">1.学习笔记-docker基本概念</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-8/">8.sb-原理</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-7/">7.sb-jdbcTemplate</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-6/">6.sb-DevTools</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-5/">5.sb-Swagger</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/12/17/spring-boot-4/">4.sb-日志</a></li></ul></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">CHILAM.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.3.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/search.js?v=0.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+   search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" color="100,99,98" opacity="0.7" zIndex="-1" count="30" src="//cdn.bootcss.com/canvas-nest.js/1.0.1/canvas-nest.min.js"></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
